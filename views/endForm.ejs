@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>End ride form</h1>
+    <form  class="form" id="form">
+        
+        
+        <button id="start-camera">Start Camera</button>
+      <video id="video" width="320" height="240" autoplay></video>
+      <button id="click-photo">Click Photo</button>
+      <canvas id="canvas" width="320" height="240"></canvas>
+      <br>
+      <br>
+<div>
+        <label for="start">Current km reading in odometer</label>
+        <input type="text" id="end" name="end" required><br><br>
+</div>        
+        <input type="submit" value="End trip" >
+    </form>
+
+<script>
+
+let camera_button = document.querySelector("#start-camera");
+let video = document.querySelector("#video");
+let click_button = document.querySelector("#click-photo");
+let canvas = document.querySelector("#canvas");
+let endInput = document.querySelector("#end");
+let image_data_url = "";
+
+camera_button.addEventListener('click', async function() {
+   	let stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+	video.srcObject = stream;
+});
+
+click_button.addEventListener('click', function() {
+   	canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+   	image_data_url = canvas.toDataURL('image/jpeg');
+     // Hide the video element after clicking a photo
+     video.style.display = "none";
+     camera_button.style.display = "none";
+     click_button.style.display = "none";
+
+   	// data url of the image
+   	console.log(image_data_url);
+});
+
+document.querySelector("form").addEventListener("submit", async (event)=> {
+    event.preventDefault(); 
+    
+    // Extract odometer reading and image URL
+    let odometerReadingEnd = endInput.value;
+    sendDataToServer(image_data_url, odometerReadingEnd);
+    return await fetch('/endTrip', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+        image: image_data_url, 
+        odometerReading: odometerReadingEnd, 
+        }),
+      })
+
+});
+
+// Simulate sending data to the server (replace this with actual server communication)
+function sendDataToServer(imageUrl, odometerReading) {
+    console.log("Image URL:", imageUrl);
+    console.log("Odometer Reading:", odometerReading);
+    // Here you would use an AJAX request or fetch to send the data to your server
+}
+
+</script>
+    
+</body>
+</html>
