@@ -55,6 +55,7 @@ document.querySelector("form").addEventListener("submit", async (event)=> {
     
     // Extract odometer reading and image URL
     let odometerReading = startInput.value;
+    let id = localStorage.getItem("id")
     sendDataToServer(image_data_url, odometerReading);
     return await fetch("/startTrip", {
         method: 'POST',
@@ -64,6 +65,7 @@ document.querySelector("form").addEventListener("submit", async (event)=> {
         body: JSON.stringify({
         image: image_data_url, 
         odometerReading: odometerReading, 
+        id:id,
         }),
       })
 
