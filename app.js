@@ -11,7 +11,6 @@ app.use(express.urlencoded({extends:false}))
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"./views"));
 
-
 app.get("/customer/:id", async(req,res)=>{
     try {
         
@@ -25,16 +24,16 @@ app.get("/customer/:id", async(req,res)=>{
         }
         
         const customerData = customerDoc.data();
-        if(customerData.status == "start"){
+       // if(customerData.status == "start"){
         //
-        res.redirect("/startForm");
-        }
-        else if(customerData.status == "end"){
-            res.redirect("/endForm");
-        }
-        else{
-            res.render('confirm',{customerData:customerData,id:docId });
-        }
+        //res.redirect("/startForm");
+        // }
+        // else if(customerData.status == "end"){
+        //     res.redirect("/endForm");
+        // }
+        // else{
+             res.render('confirm',{customerData:customerData,id:docId });
+        // }
     } catch (error) {
         console.error('Error fetching customer data:', error);
         
