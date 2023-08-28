@@ -20,11 +20,7 @@
     <p>Customer Phone: <%= customerData.Phone %></p>
     <p>Pickup point : <%= customerData.from %></p>
     <p>Drop point : <%= customerData.to %></p>
-    <form action="/verify-otp?id=<%=id%>" method="POST">
-      <label for="otp">Enter OTP:</label>
-      <input type="text" id="otp" name="otp" value="8080" required>
-      <button type="submit">Submit OTP</button>
-  </form>
+    
     <!-- Other customer data fields here -->
 </body>
 </html>
