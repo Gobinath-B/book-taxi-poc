@@ -40,33 +40,46 @@ app.get("/customer/:id", async(req,res)=>{
     }
 })
 
-app.post("/verify-otp", async(req,res)=>{
-    const bookingId = req.query.id;
-    const otp = req.body.otp;
-   var data = await fb.collection('customer').doc(bookingId).get()
-   console.log(data.data() , otp);
-   if(data.data().otp == otp){
-    //console.log(true);
-   await fb.collection('customer').doc(bookingId).update({status:"start"})
-   res.redirect("/startForm");
-   }
-   else{
-    res.redirect("/customer/"+bookingId)
-   }
+// app.post("/verify-otp", async(req,res)=>{
+//     const bookingId = req.query.id;
+//     const otp = req.body.otp;
+//    var data = await fb.collection('customer').doc(bookingId).get()
+//    console.log(data.data() , otp);
+//    if(data.data().otp == otp){
+//     //console.log(true);
+//    await fb.collection('customer').doc(bookingId).update({status:"start"})
+//    res.redirect("/startForm");
+//    }
+//    else{
+//     res.redirect("/customer/"+bookingId)
+//    }
 
-})
+// })
 
 app.post("/startTrip", async(req,res)=>{
     try{
-        const {image, odometerReading} = req.body;
+        const {imageRef, odometerReading} = req.body;
         const bookingId = req.body.id;
-        //console.log({image, odometerReading});
-       await fb.collection('customer').doc(bookingId).update({start:odometerReading},)
-        
-        .then(() => {
+       // console.log(req.body.id);
+        const otp = req.body.otp;
+        var data = await fb.collection('customer').doc(bookingId).get()
+       // console.log(data.data() , otp);
+        if(data.data().otp == otp){
+         //console.log(true);
+        await fb.collection('customer').doc(bookingId).update({status:"start",start:odometerReading,image:imageRef})
+        //await fb.collection('customer').doc(bookingId).update({start:odometerReading,image:imageRef})
+       
+          .then(() => {
             console.log('Document written with ID: ', bookingId);
             res.redirect("/endForm");
-        })
+           
+          })
+        }
+        else{
+         res.redirect("/customer/"+bookingId)
+        }
+
+       
     }
     catch{
        console.log("error on db storage");
@@ -75,16 +88,18 @@ app.post("/startTrip", async(req,res)=>{
 
 app.post("/endTrip",async (req,res)=>{
     try{
-         const {image, odometerReadingEnd} = req.body;
+         const {imageRef, odometerReadingEnd} = req.body;
+         console.log(req.body);
          const bookingId = req.body.id;
            
-         await fb.collection('customer').doc(bookingId).update({end:odometerReadingEnd})
+         await fb.collection('customer').doc(bookingId).update({end:odometerReadingEnd,imageEnd:imageRef,status:"end"})
          var data =  await fb.collection('customer').doc(bookingId).get()
          const start = data._fieldsProto.start.stringValue;
          const end = data._fieldsProto.end.stringValue;
          const phone = data._fieldsProto.Phone.integerValue;
          const ratePerKm = data._fieldsProto.ratePerKm.integerValue;
          const car = data._fieldsProto.car.stringValue;
+         const status = data._fieldsProto.status.stringValue;
          const totalDistance = end - start;
          const totalAmount = totalDistance * ratePerKm;
          const jsonData = {
@@ -95,8 +110,11 @@ app.post("/endTrip",async (req,res)=>{
             totalDistance: totalDistance,
             totalAmount: totalAmount
           };
-         await fb.collection('customer').doc(bookingId).update({amount:totalAmount})
-         res.render("bill",{jsonData})
+         await fb.collection('customer').doc(bookingId).update({amount:totalAmount,travel_distance:totalDistance})
+         .then(()=>{
+            res.render("bill",{jsonData});
+         })
+         
         
      } catch (error) {
          console.error('Error fetching customer data:', error);

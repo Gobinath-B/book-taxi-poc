@@ -9,20 +9,32 @@
 </head>
 <body>
     <h1>Start ride form</h1>
-    <form  id="form" class="form">
-  
-      <button id="start-camera">Start Camera</button>
-      <video id="video" width="320" height="240" autoplay></video>
-      <button id="click-photo">Click Photo</button>
-      <canvas id="canvas" width="320" height="240"></canvas>
-      <br>
-      <br>
+    <form  action="/startTrip" method="post" class="form" id="form">
+        
+        
+      <button type="button" id="start-camera">Start Camera</button>
+     <video id="video" width="320" height="240" autoplay></video>
+    <button type="button" id="click-photo">Click Photo</button>
+    <canvas id="canvas" width="320" height="240"></canvas>
+    <br>
+    <br>
+
 <div>
-        <label for="start">Current km reading in odometer</label>
-        <input type="text" id="start" name="start" required><br><br>
+      
+      <label for="end">Current km reading in odometer</label>
+      <input type="text" id="start" name="odometerReading" ><br><br>
+      <label for="otp">Enter OTP:</label>
+      <input type="text" id="otp" name="otp" value="8080" required>
+      <input type="text" id="id" name="id" hidden>
+      <input type="text" id="imageRef" name="imageRef" hidden>
+      <br><br>
+
 </div>        
-        <input type="submit" value="Start trip" >
-    </form>
+      <!-- <input type="submit" value="End trip" > -->
+      <button onclick="updateAndSubmit()">Submit</button>
+
+  </form>
+
 
 <script>
 
@@ -34,7 +46,7 @@ let startInput = document.querySelector("#start");
 let image_data_url ="";
 
 camera_button.addEventListener('click', async function() {
-   	let stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+   	let stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
 	video.srcObject = stream;
 });
 
@@ -50,34 +62,51 @@ click_button.addEventListener('click', function() {
    	console.log(image_data_url);
 });
 
-document.querySelector("form").addEventListener("submit", async (event)=> {
-    event.preventDefault(); 
+//document.querySelector("form").addEventListener("submit", async (event)=> {
+    // event.preventDefault(); 
     
-    // Extract odometer reading and image URL
-    let odometerReading = startInput.value;
-    let id = localStorage.getItem("id")
-    sendDataToServer(image_data_url, odometerReading);
-    return await fetch("/startTrip", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-        image: image_data_url, 
-        odometerReading: odometerReading, 
-        id:id,
-        }),
-      })
+    // // Extract odometer reading and image URL
+    // let odometerReading = startInput.value;
+    // let id = localStorage.getItem("id")
+    // sendDataToServer(image_data_url, odometerReading);
+    // var response =  await fetch("/startTrip", {
+    //     method: 'POST',
+    //     redirect:"follow",
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({
+    //     image: image_data_url, 
+    //     odometerReading: odometerReading, 
+    //     id:id,
+    //     }),
+    //   })
 
-});
+    //   if(response.status==200){
+    //         location.href = "/endForm"
+    //   }
+
+//});
 
 // Simulate sending data to the server (replace this with actual server communication)
-function sendDataToServer(imageUrl, odometerReading) {
-    console.log("Image URL:", imageUrl);
-    console.log("Odometer Reading:", odometerReading);
+// function sendDataToServer(imageUrl, odometerReading) {
+//     console.log("Image URL:", imageUrl);
+//     console.log("Odometer Reading:", odometerReading);
     // Here you would use an AJAX request or fetch to send the data to your server
+//}
+var hiddenId = document.getElementById("id");
+var hiddenInput = document.getElementById("imageRef");
+var id = localStorage.getItem("id")
+// Function to update and submit the form
+function updateAndSubmit() {
+    // Update the value of the hidden input field
+    hiddenInput.value = image_data_url;
+    hiddenId.value = id;
+    // Submit the form
+    var form = document.getElementById("form");
+    console.log(form)
+    form.submit();
 }
-
 </script>
 </body>
 </html>
