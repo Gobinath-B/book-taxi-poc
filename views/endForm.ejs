@@ -10,19 +10,23 @@
     <form  action="/endTrip" method="post" class="form" id="form">
         
         
-        <button id="start-camera">Start Camera</button>
+        <button type="button" id="start-camera">Start Camera</button>
        <video id="video" width="320" height="240" autoplay></video>
-      <button id="click-photo">Click Photo</button>
+      <button type="button" id="click-photo">Click Photo</button>
       <canvas id="canvas" width="320" height="240"></canvas>
       <br>
       <br>
 <div>
         <label for="end">Current km reading in odometer</label>
         <input type="text" id="end" name="odometerReadingEnd" required><br><br>
-        <input type="text" id="id" name="id" hidden><br><br>
+        <input type="text" id="id" name="id" hidden>
+        <input type="text" id="imageRef" name="imageRef" hidden>
+        <br><br>
 
 </div>        
-        <input type="submit" value="End trip" >
+        <!-- <input type="submit" value="End trip" > -->
+        <button type="submit" onclick="updateAndSubmit()">Submit</button>
+
     </form>
 
 <script>
@@ -36,13 +40,14 @@ let endInput = document.querySelector("#end");
 let image_data_url = "";
 
 camera_button.addEventListener('click', async function() {
-   	let stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+   	let stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
 	video.srcObject = stream;
 });
 
 click_button.addEventListener('click', function() {
    	canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
    	image_data_url = canvas.toDataURL('image/jpeg');
+       document.getElementById('imageRef').innerHTML = image_data_url;
      // Hide the video element after clicking a photo
      video.style.display = "none";
      camera_button.style.display = "none";
@@ -52,7 +57,7 @@ click_button.addEventListener('click', function() {
    	console.log(image_data_url);
 });
 
-document.querySelector("form").addEventListener("submit", async (event)=> {
+//document.querySelector("form").addEventListener("submit", async (event)=> {
     // event.preventDefault(); 
     
     // Extract odometer reading and image URL
@@ -71,13 +76,26 @@ document.querySelector("form").addEventListener("submit", async (event)=> {
     //     }),
     //   })
 
-});
+//});
 
 // Simulate sending data to the server (replace this with actual server communication)
-function sendDataToServer(imageUrl, odometerReading) {
-    console.log("Image URL:", imageUrl);
-    console.log("Odometer Reading:", odometerReading);
-    // Here you would use an AJAX request or fetch to send the data to your server
+// function sendDataToServer(imageUrl, odometerReading) {
+//     console.log("Image URL:", imageUrl);
+//     console.log("Odometer Reading:", odometerReading);
+//     // Here you would use an AJAX request or fetch to send the data to your server
+// }
+
+var hiddenInput = document.getElementById("imageRef");
+
+// Function to update and submit the form
+function updateAndSubmit() {
+    // Update the value of the hidden input field
+    hiddenInput.value = image_data_url;
+
+    // Submit the form
+    var form = document.getElementById("form");
+    console.log(form)
+    form.submit();
 }
 
 </script>
