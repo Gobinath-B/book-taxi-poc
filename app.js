@@ -81,8 +81,8 @@ app.post("/startTrip", async(req,res)=>{
 
        
     }
-    catch{
-       console.log("error on db storage");
+    catch(error){
+       console.log("error on db storage",error);
     }
 })
 
