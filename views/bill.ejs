@@ -3,17 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Invoice</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        .invoice-box {
+            border: 1px solid #ddd;
+            padding: 20px;
+        }
+       
+        .contact-info.head{
+            text-align: left;
+        }
+        .address{
+            text-align: right;
+            padding-left: 25px;
+        }
+        .margin-line {
+            border-bottom: 1px solid #ddd;
+            position: absolute; /* Add this */
+            bottom: 20px; /* Adjust this value as needed */
+            left: 0;
+            right: 0;
+        }
+        .logo img {
+            height: 80px;
+            width: 150px;
+        }
+        p{
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            margin-bottom: 0px;
+            font-style: italic;
+            text-align: center;
+            
+        }
+       /* #d{
+        
+       } */
+    </style>
 </head>
 <body>
-    <div>
-        <p>Car : <%=jsonData.car%></p>
-        <p>Trip Start : <%=jsonData.start%></p>
-        <p>Trip end : <%=jsonData.end%></p>
-        <p>Total Distance : <%=jsonData.totalDistance%></p>
-        <p>Rate per km : <%=jsonData.ratePerKm%></p>
-        <p>Total Amount : <%=jsonData.totalAmount%></p>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="invoice-box">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="logo">
+                                <img src="/image/logo.png" alt="Logo">
+                            </div>
+                            <div class="contact-info" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
+                                <h8 >Ph: +91 1234567890</h8>
+                                <br>
+                                <h8> taxigocabs@gmail.com</h8>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="address">
+                                <p>Taxigo cabs</p>
+                                <p>Chinniyampalyam,</p>
+                                <p>1/399 Dhandapani Street,</p>
+                                <p>Near Airport, Coimbatore - 641062.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="container">
+                        <div class="row">
+                          <div class="col">
+                            <p>Booking Id</p>
+                            <p id="d">jsonData.bookingId</p>
+                          </div>
+                          <div class="col">
+                            <p>Customer Name</p>
+                            <p id="d">jsonData.name</p>
+                          </div>
+                          <div class="col">
+                            <p> Customer Phone</p>
+                            <p id="d">jsonData.phone</p>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <hr style="height:2px;border-width:0;color:black;background-color:black">
+                      <div class="container-fluid mt-3">
+                        <div class="row row-cols-2" >
+                            <div class="col "><p>From: jsonData.from</p></div>
+                            <div class="col "><p> Start Reading: jsonData.start</p></div>
+                             <div class="col "><p> To: jsonData.to</p></div>
+                            <div class="col "><p> End Reading: jsonData.end</p></div>
+                          </div>
+                      </div>
+                </div>
+            </div>
 
+            <!-- <div class="margin-line"></div> -->
+            
+
+        </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>
