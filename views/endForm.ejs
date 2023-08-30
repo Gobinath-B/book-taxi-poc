@@ -3,102 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>End Ride Form</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>End ride form</h1>
-    <form  action="/endTrip" method="post" class="form" id="form">
-        
-        
-        <button type="button" id="start-camera">Start Camera</button>
-       <video id="video" width="320" height="240" autoplay></video>
-      <button type="button" id="click-photo">Click Photo</button>
-      <canvas id="canvas" width="320" height="240"></canvas>
-      <br>
-      <br>
-<div>
-        <label for="end">Current km reading in odometer</label>
-        <input type="text" id="end" name="odometerReadingEnd" required><br><br>
-        <input type="text" id="id" name="id" hidden>
-        <input type="text" id="imageRef" name="imageRef" hidden>
-        <br><br>
+    <div class="container mt-5">
+        <h1 class="text-center">End Ride Form</h1>
+        <form action="/endTrip" method="post" class="form" id="form">
+            <div class="mb-3">
+                <button type="button" class="btn btn-primary" id="start-camera">Start Camera</button>
+            </div>
+            <div class="mb-3">
+                <video id="video" class="w-100" autoplay></video>
+            </div>
+            <div class="mb-3">
+                <button type="button" class="btn btn-primary" id="click-photo">Click Photo</button>
+            </div>
+            <div class="mb-3">
+                <canvas id="canvas" class="w-100"></canvas>
+            </div>
+            <div class="mb-3">
+                <label for="end" class="form-label">Current km reading in odometer</label>
+                <input type="text" class="form-control" id="end" name="odometerReadingEnd" required>
+            </div>
+            <input type="text" class="form-control" id="id" name="id" hidden>
+            <input type="text" class="form-control" id="imageRef" name="imageRef" hidden>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary" onclick="updateAndSubmit()">Submit</button>
+            </div>
+        </form>
+    </div>
 
-</div>        
-        <!-- <input type="submit" value="End trip" > -->
-        <button type="submit" onclick="updateAndSubmit()">Submit</button>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
-    </form>
+    <!-- Your JavaScript Code -->
+    <!-- ... (HTML code above) ... -->
 
+<!-- Your JavaScript Code -->
 <script>
-const id = localStorage.getItem("id")
-document.getElementById('id').value = id;
-let camera_button = document.querySelector("#start-camera");
-let video = document.querySelector("#video");
-let click_button = document.querySelector("#click-photo");
-let canvas = document.querySelector("#canvas");
-let endInput = document.querySelector("#end");
-let image_data_url = "";
-
-camera_button.addEventListener('click', async function() {
-   	let stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
-	video.srcObject = stream;
-});
-
-click_button.addEventListener('click', function() {
-   	canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-   	image_data_url = canvas.toDataURL('image/jpeg');
-       document.getElementById('imageRef').innerHTML = image_data_url;
-     // Hide the video element after clicking a photo
-     video.style.display = "none";
-     camera_button.style.display = "none";
-     click_button.style.display = "none";
-
-   	// data url of the image
-   	console.log(image_data_url);
-});
-
-//document.querySelector("form").addEventListener("submit", async (event)=> {
-    // event.preventDefault(); 
+    const id = localStorage.getItem("id")
+    document.getElementById('id').value = id;
+    let camera_button = document.querySelector("#start-camera");
+    let video = document.querySelector("#video");
+    let click_button = document.querySelector("#click-photo");
+    let canvas = document.querySelector("#canvas");
+    let endInput = document.querySelector("#end");
+    let image_data_url = "";
     
-    // Extract odometer reading and image URL
-    // let odometerReadingEnd = endInput.value;
-    // const id = localStorage.getItem("id")
-    // sendDataToServer(image_data_url, odometerReadingEnd);
-    // return await fetch('/endTrip', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({
-    //     image: image_data_url, 
-    //     odometerReadingEnd: odometerReadingEnd, 
-    //     id:id,
-    //     }),
-    //   })
-
-//});
-
-// Simulate sending data to the server (replace this with actual server communication)
-// function sendDataToServer(imageUrl, odometerReading) {
-//     console.log("Image URL:", imageUrl);
-//     console.log("Odometer Reading:", odometerReading);
-//     // Here you would use an AJAX request or fetch to send the data to your server
-// }
-
-var hiddenInput = document.getElementById("imageRef");
-
-// Function to update and submit the form
-function updateAndSubmit() {
-    // Update the value of the hidden input field
-    hiddenInput.value = image_data_url;
-
-    // Submit the form
-    var form = document.getElementById("form");
-    console.log(form)
-    form.submit();
-}
-
-</script>
+    camera_button.addEventListener('click', async function() {
+        let stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
+        video.srcObject = stream;
+    });
     
-</body>
-</html>
+    click_button.addEventListener('click', function() {
+        canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+        image_data_url = canvas.toDataURL('image/jpeg');
+        document.getElementById('imageRef').value = image_data_url; // Use `.value` to set the input value
+        // Hide the video element after clicking a photo
+        video.style.display = "none";
+        camera_button.style.display = "none";
+        click_button.style.display = "none";
+    
+        // data url of the image
+        console.log(image_data_url);
+    });
+    
+    // Simulate sending data to the server (replace this with actual server communication)
+    // function sendDataToServer(imageUrl, odometerReading) {
+    //     console.log("Image URL:", imageUrl);
+    //     console.log("Odometer Reading:", odometerReading);
+    //     // Here you would use an AJAX request or fetch to send the data to your server
+    // }
+    
+    var hiddenInput = document.getElementById("imageRef");
+    
+    // Function to update and submit the form
+    function updateAndSubmit() {
+        // Update the value of the hidden input field
+        hiddenInput.value = image_data_url;
+    
+        // Submit the form
+        var form = document.getElementById("form");
+        console.log(form)
+        form.submit();
+    }
+    
+    </script>
+        
+    </body>
+    </html>

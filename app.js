@@ -94,6 +94,9 @@ app.post("/endTrip",async (req,res)=>{
            
          await fb.collection('customer').doc(bookingId).update({end:odometerReadingEnd,imageEnd:imageRef,status:"end"})
          var data =  await fb.collection('customer').doc(bookingId).get()
+         const name = data._fieldsProto.name.stringValue;
+         const from = data._fieldsProto.from.stringValue;
+         const to = data._fieldsProto.to.stringValue;
          const start = data._fieldsProto.start.stringValue;
          const end = data._fieldsProto.end.stringValue;
          const phone = data._fieldsProto.Phone.integerValue;
@@ -103,6 +106,11 @@ app.post("/endTrip",async (req,res)=>{
          const totalDistance = end - start;
          const totalAmount = totalDistance * ratePerKm;
          const jsonData = {
+            bookingId:bookingId,
+            name:name,
+            from:from,
+            to:to,
+            phone:phone,
             car: car,
             start: start,
             end: end,

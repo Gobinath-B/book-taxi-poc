@@ -4,40 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>poc</title>
-    <script>import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";</script>
-  <script>import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-analytics.js";</script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Start ride form</h1>
-    <form  action="/startTrip" method="post" class="form" id="form">
-        
-        
-      <button type="button" id="start-camera">Start Camera</button>
-     <video id="video" width="320" height="240" autoplay></video>
-    <button type="button" id="click-photo">Click Photo</button>
-    <canvas id="canvas" width="320" height="240"></canvas>
-    <br>
-    <br>
+    <div class="container mt-5">
+        <h1 class="text-center">Start Ride Form</h1>
+        <form action="/startTrip" method="post" class="form" id="form">
+            <div class="mb-3">
+                <button type="button" class="btn btn-primary" id="start-camera">Start Camera</button>
+            </div>
+            <div class="mb-3">
+                <video id="video" class="w-100" autoplay></video>
+            </div>
+            <div class="mb-3">
+                <button type="button" class="btn btn-primary" id="click-photo">Click Photo</button>
+            </div>
+            <div class="mb-3">
+                <canvas id="canvas" class="w-100"></canvas>
+            </div>
+            <div class="mb-3">
+                <label for="start" class="form-label">Current km reading in odometer</label>
+                <input type="text" class="form-control" id="start" name="odometerReading">
+            </div>
+            <div class="mb-3">
+                <label for="otp" class="form-label">Enter OTP:</label>
+                <input type="text" class="form-control" id="otp" name="otp" value="8080" required>
+                <input type="text" class="form-control" id="id" name="id" hidden>
+                <input type="text" class="form-control" id="imageRef" name="imageRef" hidden>
+            </div>
+            <div class="mb-3">
+                <button type="button" class="btn btn-primary" onclick="updateAndSubmit()">Submit</button>
+            </div>
+        </form>
+    </div>
 
-<div>
-      
-      <label for="end">Current km reading in odometer</label>
-      <input type="text" id="start" name="odometerReading" ><br><br>
-      <label for="otp">Enter OTP:</label>
-      <input type="text" id="otp" name="otp" value="8080" required>
-      <input type="text" id="id" name="id" hidden>
-      <input type="text" id="imageRef" name="imageRef" hidden>
-      <br><br>
-
-</div>        
-      <!-- <input type="submit" value="End trip" > -->
-      <button onclick="updateAndSubmit()">Submit</button>
-
-  </form>
-
-
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Your JavaScript Code -->
+    
 <script>
-
 let camera_button = document.querySelector("#start-camera");
 let video = document.querySelector("#video");
 let click_button = document.querySelector("#click-photo");
@@ -46,57 +53,26 @@ let startInput = document.querySelector("#start");
 let image_data_url ="";
 
 camera_button.addEventListener('click', async function() {
-   	let stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
-	video.srcObject = stream;
+    let stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
+    video.srcObject = stream;
 });
 
 click_button.addEventListener('click', function() {
-   	canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-   	image_data_url = canvas.toDataURL('image/jpeg');
-     // Hide the video element after clicking a photo
-     video.style.display = "none";
-     camera_button.style.display = "none";
-     click_button.style.display = "none";
+    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+    image_data_url = canvas.toDataURL('image/jpeg');
+    // Hide the video element after clicking a photo
+    video.style.display = "none";
+    camera_button.style.display = "none";
+    click_button.style.display = "none";
 
-   	// data url of the image
-   	console.log(image_data_url);
+    // data url of the image
+    console.log(image_data_url);
 });
 
-//document.querySelector("form").addEventListener("submit", async (event)=> {
-    // event.preventDefault(); 
-    
-    // // Extract odometer reading and image URL
-    // let odometerReading = startInput.value;
-    // let id = localStorage.getItem("id")
-    // sendDataToServer(image_data_url, odometerReading);
-    // var response =  await fetch("/startTrip", {
-    //     method: 'POST',
-    //     redirect:"follow",
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({
-    //     image: image_data_url, 
-    //     odometerReading: odometerReading, 
-    //     id:id,
-    //     }),
-    //   })
-
-    //   if(response.status==200){
-    //         location.href = "/endForm"
-    //   }
-
-//});
-
-// Simulate sending data to the server (replace this with actual server communication)
-// function sendDataToServer(imageUrl, odometerReading) {
-//     console.log("Image URL:", imageUrl);
-//     console.log("Odometer Reading:", odometerReading);
-    // Here you would use an AJAX request or fetch to send the data to your server
-//}
 var hiddenId = document.getElementById("id");
 var hiddenInput = document.getElementById("imageRef");
-var id = localStorage.getItem("id")
+var id = localStorage.getItem("id");
+
 // Function to update and submit the form
 function updateAndSubmit() {
     // Update the value of the hidden input field
@@ -104,9 +80,10 @@ function updateAndSubmit() {
     hiddenId.value = id;
     // Submit the form
     var form = document.getElementById("form");
-    console.log(form)
     form.submit();
 }
-</script>
+
+
+    </script>
 </body>
 </html>

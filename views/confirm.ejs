@@ -15,15 +15,23 @@
     <title>Confirmation Page</title>
 </head>
 <body>
-    <h1>Confirmation Page</h1>
-    <p>Customer Name: <%= customerData.name %></p>
-    <p>Customer Phone: <%= customerData.Phone %></p>
-    <p>Pickup point : <%= customerData.from %></p>
-    <p>Drop point : <%= customerData.to %></p>
+ 
+    <!-- Other customer data fields here -->
+    <div class="container pt-3">
+      <h1>Confirmation Page</h1>
+    </div>
+    
+    <div class="container-sm border"><p>Customer Name: <%= customerData.name %></p></div>
+    <div class="container-sm border"><p>Customer Phone: <%= customerData.Phone %></p></div>
+    <div class="container-sm border"> <p>Pickup point : <%= customerData.from %></p></div>
+    <div class="container-sm border"> <p>Drop point : <%= customerData.to %></p></div>
+    <div class= "container-sm border">
+      
+   
     <form action="/startForm"> 
       <button type="submit">Arrived at customer location</button>
     </form>
-    <!-- Other customer data fields here -->
+  </div>
 </body>
 </html>
 
