@@ -40,17 +40,20 @@
 			<div class="row">
 			  <div class="col" style="margin-left: 0%;">
 				<img src="../image/logo.png" width="140px" height="140px"  class="img-fluid" alt="logo" >
+				<p>Ph: +91 123456789</p>
+				<P>contact@taxigo.com</P>
 			  </div>
 			  <div class="col">
 				<p>Taxi go</p>
 				<p>101 Udayar Kudiyirupu</p>
 				<p>Nagarikathan,Thiruvadanai</p>
 				<p>Ramanathapuram-623404</p>
+				<p>GSTIN : 123456789</p>
 			  </div>
 			</div>   
 	    </div>		 
 		<br>
-		<table class="table table-striped">
+		<table class="table table-bordered">
 		  <thead>
 			<tr>
 			  <th>BookingID</th>
@@ -67,7 +70,78 @@
 			
 		  </tbody>
 		</table>
-		<input type="button" style="background-color: black;"  value="Print this page" onClick="window.print()">
+        <hr style="border-color: black; border-width:2px;">
+		<div class="row" style="margin-left: 5px;">
+			<div class="col">
+               <p>Car Type</p>
+			   <p style="font-weight: bolder; font-size: larger;"><%= jsonData.car %></p>
+			</div>
+			<div class="col">
+              <p>Service</p>
+			  <p style="font-weight: bolder; font-size: larger;"><%= jsonData.service %></p>
+			</div>
+			<div class="col">
+				<p>Driver Name</p>
+				<p style="font-weight: bolder; font-size: larger;"><%= jsonData.driverName %></p>
+			  </div>
+
+		</div>
+		<hr style="border-color: black; border-width:2px;">
+		<div style="margin-left: 5px; margin-bottom: 0%;">
+           <p>From:</p>
+		   <p style="font-weight: bolder; font-size: larger;"> <%= jsonData.from %></p>
+		   <p>To:</p>
+		   <p style="font-weight: bolder; font-size: larger;"><%= jsonData.to %></p>
+		</div>
+        <hr style="border-color: black; border-width:2px;">
+
+        <table class="table table-bordered">
+			<thead>
+			  <!-- <tr>
+				<th scope="col">#</th>
+				<th scope="col">First</th>
+				<th scope="col">Last</th>
+				<th scope="col">Handle</th>
+			  </tr> -->
+			</thead>
+			<tbody>
+			  <tr>
+				
+				<td>Toatal Km Driven</td>
+				
+				<td><%= jsonData.totalDistance %> Kms</td>
+			  </tr>
+			  <tr>
+				
+				<td>Rate per Km</td>
+				
+				<td>Rs: <%= jsonData.ratePerKm %></td>
+			  </tr>
+			  <tr>
+				
+				<td >Tax (5%)</td>
+				
+				<td>Rs: <%= jsonData.tax %></td>
+			  </tr>
+			  <tr>
+				
+				<td >Driver Beta</td>
+				
+				<td>Rs: <%= jsonData.beta %></td>
+			  </tr>
+			  <tr>
+				<td>Total Amount</td>
+				<td>Rs: <%= jsonData.totalAmount %></td>
+			  </tr>
+			</tbody>
+		  </table>
+        <div class="row">
+			<div class="col-8">
+				<input type="button" style="background-color: black;color: white;"  value="Print this page" onClick="window.print()">
+			</div>
+			
+		</div>
+		
 </div>
 </body>
 </html>

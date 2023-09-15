@@ -13,19 +13,24 @@ app.use(express.urlencoded({extends:false}))
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"./views"));
 
-app.get("/customer/:id", async(req,res)=>{
+app.post("/customer", async(req,res)=>{
     try {
         
-       const docId = req.params.id;
+       const docId = req.body.Id;
+       console.log(docId);
         const customerRef = fb.collection('customer').doc(docId);
         const customerDoc = await customerRef.get();
-
+        const inputNum = req.body.Dphone
+        const customerData = customerDoc.data();
         if (!customerDoc.exists) {
-            res.json({ error: 'Customer not found' });
+            res.json({ error: 'Driver not found' });
             return;
         }
         
-        const customerData = customerDoc.data();
+       
+        else if(customerData.DriverPhone == inputNum){
+            res.render('confirm',{customerData:customerData,id:docId });
+        }
        // if(customerData.status == "start"){
         //
         //res.redirect("/startForm");
@@ -33,9 +38,9 @@ app.get("/customer/:id", async(req,res)=>{
         // else if(customerData.status == "end"){
         //     res.redirect("/endForm");
         // }
-        // else{
-             res.render('confirm',{customerData:customerData,id:docId });
-        // }
+        else{
+            res.sendStatus(404);
+        }
     } catch (error) {
         console.error('Error fetching customer data:', error);
         
@@ -147,6 +152,28 @@ app.get("/startForm",(req,res)=>{
     res.render("startForm");
 })
 
+
+
+app.get("/:id",async(req,res)=>{
+   try{ 
+    const docId = req.params.id;
+        const customerRef = fb.collection('customer').doc(docId);
+        const customerDoc = await customerRef.get();
+
+        if (!customerDoc.exists) {
+            res.json({ error: 'Customer not found' });
+            return;
+        }
+        
+        const customerData = customerDoc.data();
+        res.render('verification',{customerData:customerData,id:docId });
+
+    }catch (error) {
+            console.error('Error fetching customer data:', error);
+            
+        }
+})
+
 app.get("/bill",(req,res)=>{
     res.render("bill");
 })
@@ -155,6 +182,11 @@ app.get("/endForm",(req,res)=>{
     res.render("endForm");
 });
 
+app.post("/location",(req,res)=>{
+   const latitude = req.body.latitude;
+   const longitude = req.body.longitude;
+   console.log(latitude,longitude);
+});
 
 app.listen(PORT,()=>{
     console.log(`listening on ${PORT}`)
