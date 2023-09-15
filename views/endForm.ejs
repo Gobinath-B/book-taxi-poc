@@ -6,10 +6,33 @@
     <title>End Ride Form</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center">End Ride Form</h1>
+    <div class="container " style="padding-left: 0%;padding-right: 0%;">
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+              <div class="navbar-header">
+                <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button> -->
+                <a class="navbar-brand" style="color: white;" href="#">Taxi go</a>
+              </div>
+    
+            </div>
+          </nav>
+        </div> 
+    <div class="container mt-5" style="padding-top: 0%;">
+        <h1 class="text-center" style="margin-top: 0%;">End Ride Form</h1>
         <form action="/endTrip" method="post" class="form" id="form">
             <div class="mb-3">
                 <button type="button" class="btn btn-primary" id="start-camera">Start Camera</button>
@@ -24,7 +47,7 @@
                 <canvas id="canvas" class="w-100"></canvas>
             </div>
             <div class="mb-3">
-                <label for="end" class="form-label">Current km reading in odometer</label>
+                <label for="end" class="form-label" style="font-size: medium;">Current km reading in odometer</label>
                 <input type="text" class="form-control" id="end" name="odometerReadingEnd" required>
             </div>
             <input type="text" class="form-control" id="id" name="id" hidden>
@@ -51,10 +74,14 @@
     let canvas = document.querySelector("#canvas");
     let endInput = document.querySelector("#end");
     let image_data_url = "";
+    click_button.style.display = "none";
+    canvas.style.display ="none";
     
     camera_button.addEventListener('click', async function() {
         let stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
         video.srcObject = stream;
+        camera_button.style.display="none"
+        click_button.style.display = "block";
     });
     
     click_button.addEventListener('click', function() {
@@ -62,6 +89,7 @@
         image_data_url = canvas.toDataURL('image/jpeg');
         document.getElementById('imageRef').value = image_data_url; // Use `.value` to set the input value
         // Hide the video element after clicking a photo
+        canvas.style.display = "block";
         video.style.display = "none";
         camera_button.style.display = "none";
         click_button.style.display = "none";
@@ -69,14 +97,7 @@
         // data url of the image
         console.log(image_data_url);
     });
-    
-    // Simulate sending data to the server (replace this with actual server communication)
-    // function sendDataToServer(imageUrl, odometerReading) {
-    //     console.log("Image URL:", imageUrl);
-    //     console.log("Odometer Reading:", odometerReading);
-    //     // Here you would use an AJAX request or fetch to send the data to your server
-    // }
-    
+     
     var hiddenInput = document.getElementById("imageRef");
     
     // Function to update and submit the form
@@ -89,8 +110,6 @@
         console.log(form)
         form.submit();
     }
-    
-    </script>
-        
+    </script>  
     </body>
     </html>
