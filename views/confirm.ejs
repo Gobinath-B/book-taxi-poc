@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Confirmation Page</title>
   <script>import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";</script>
   <script>import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-analytics.js";</script>
   <!-- Latest compiled and minified CSS -->
@@ -23,7 +23,7 @@
   <html>
 
   <head>
-    <title>Confirmation Page</title>
+   
   </head>
 
   <body>
@@ -39,15 +39,15 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button> -->
-            <a class="navbar-brand" href="#">Taxi go</a>
+            <a class="navbar-brand" style="color: white;" href="#">Taxi go</a>
           </div>
 
         </div>
       </nav>
-      <h1>Confirmation Page</h1>
       
-      <div class="card" style="width:500px; border: 10px; padding-left: 30px;">
-
+      
+      <div class="card" style="width:500px; border: 10px; padding-left: 30px;align-items: center;">
+        <h2 style="align-items: center;">Confirmation Page</h2>
         <div class="card-img-overlay">
           <div class="container-sm border">
             <p>Customer Name: <%= customerData.name %>
@@ -73,7 +73,7 @@
 
 
         <form action="/startForm">
-          <button type="submit">Arrived at customer location</button>
+          <button style="background-color: black; color: white;" type="submit">Arrived at customer location</button>
         </form>
       </div>
     </div>  

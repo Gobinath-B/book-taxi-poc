@@ -6,13 +6,37 @@
     <title>poc</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container " style="padding-left: 0%;padding-right: 0%;">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button> -->
+            <a class="navbar-brand" style="color: white;" href="#">Taxi go</a>
+          </div>
+
+        </div>
+      </nav>
+    </div>  
+    <div class="container mt-5" >
+  
         <h1 class="text-center">Start Ride Form</h1>
         <form action="/startTrip" method="post" class="form" id="form">
             <div class="mb-3">
-                <button type="button" class="btn btn-primary" id="start-camera">Start Camera</button>
+                <button type="button" class="btn btn-primary"  id="start-camera">Start Camera</button>
             </div>
             <div class="mb-3">
                 <video id="video" class="w-100" autoplay></video>
@@ -24,11 +48,11 @@
                 <canvas id="canvas" class="w-100"></canvas>
             </div>
             <div class="mb-3">
-                <label for="start" class="form-label">Current km reading in odometer</label>
+                <label for="start" class="form-label" style="font-size: medium;">Current km reading in odometer</label>
                 <input type="text" class="form-control" id="start" name="odometerReading">
             </div>
             <div class="mb-3">
-                <label for="otp" class="form-label">Enter OTP:</label>
+                <label for="otp" class="form-label" style="font-size: medium;">Enter OTP:</label>
                 <input type="text" class="form-control" id="otp" name="otp" value="8080" required>
                 <input type="text" class="form-control" id="id" name="id" hidden>
                 <input type="text" class="form-control" id="imageRef" name="imageRef" hidden>
@@ -51,16 +75,20 @@ let click_button = document.querySelector("#click-photo");
 let canvas = document.querySelector("#canvas");
 let startInput = document.querySelector("#start"); 
 let image_data_url ="";
-
+click_button.style.display = "none";
+canvas.style.display ="none";
 camera_button.addEventListener('click', async function() {
     let stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
     video.srcObject = stream;
+    camera_button.style.display="none"
+    click_button.style.display = "block";
 });
 
 click_button.addEventListener('click', function() {
     canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
     image_data_url = canvas.toDataURL('image/jpeg');
     // Hide the video element after clicking a photo
+    canvas.style.display = "block";
     video.style.display = "none";
     camera_button.style.display = "none";
     click_button.style.display = "none";
