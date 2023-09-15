@@ -97,18 +97,27 @@ app.post("/endTrip",async (req,res)=>{
          await fb.collection('customer').doc(bookingId).update({end:odometerReadingEnd,imageEnd:imageRef,status:"end"})
          var data =  await fb.collection('customer').doc(bookingId).get()
          const name = data._fieldsProto.name.stringValue;
+         const service = data._fieldsProto.service.stringValue;
+         const driverName = data._fieldsProto.driverName.stringValue;
+         const beta = data._fieldsProto.beta.integerValue;
          const from = data._fieldsProto.from.stringValue;
          const to = data._fieldsProto.to.stringValue;
          const start = data._fieldsProto.start.stringValue;
          const end = data._fieldsProto.end.stringValue;
          const phone = data._fieldsProto.Phone.integerValue;
          const ratePerKm = data._fieldsProto.ratePerKm.integerValue;
+         const tax = data._fieldsProto.tax.integerValue;
          const car = data._fieldsProto.car.stringValue;
          const status = data._fieldsProto.status.stringValue;
          const totalDistance = end - start;
-         const totalAmount = totalDistance * ratePerKm;
+         const extra = parseInt(tax)  +parseInt(beta);
+         const totalAmount = parseInt(totalDistance * ratePerKm )+ parseInt(extra);
+         console.log(totalAmount,extra);
+         console.log(beta,tax,totalDistance,ratePerKm);
          const jsonData = {
             bookingId:bookingId,
+            service:service,
+            driverName: driverName,
             name:name,
             from:from,
             to:to,
@@ -117,6 +126,8 @@ app.post("/endTrip",async (req,res)=>{
             start: start,
             end: end,
             ratePerKm: ratePerKm,
+            beta:beta,
+            tax:tax,
             totalDistance: totalDistance,
             totalAmount: totalAmount
           };
