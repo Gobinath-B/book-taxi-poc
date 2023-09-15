@@ -35,13 +35,13 @@
         <h1 class="text-center" style="margin-top: 0%;">End Ride Form</h1>
         <form action="/endTrip" method="post" class="form" id="form">
             <div class="mb-3">
-                <button type="button" class="btn btn-primary" id="start-camera">Start Camera</button>
+                <button type="button" class="btn btn-primary" style="background-color: black;" id="start-camera">Start Camera</button>
             </div>
             <div class="mb-3">
                 <video id="video" class="w-100" autoplay></video>
             </div>
             <div class="mb-3">
-                <button type="button" class="btn btn-primary" id="click-photo">Click Photo</button>
+                <button type="button" class="btn btn-primary" style="background-color: black;" id="click-photo">Click Photo</button>
             </div>
             <div class="mb-3">
                 <canvas id="canvas" class="w-100"></canvas>
@@ -53,7 +53,7 @@
             <input type="text" class="form-control" id="id" name="id" hidden>
             <input type="text" class="form-control" id="imageRef" name="imageRef" hidden>
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary" onclick="updateAndSubmit()">Submit</button>
+                <button type="submit" class="btn btn-primary" style="background-color: black;" onclick="updateAndSubmit()">Submit</button>
             </div>
         </form>
     </div>
