@@ -4,138 +4,72 @@
 <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8" />
+ <!-- Bootstrap CSS -->
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+ <!-- Latest compiled and minified CSS -->
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+ <!-- jQuery library -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+ <!-- Latest compiled JavaScript -->
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
-<body style="margin: 0;">
-
-<div id="p1" style="overflow: hidden; position: relative; background-color: white; width: 909px; height: 1286px;">
-
-<!-- Begin shared CSS values -->
-<style class="shared-css" type="text/css" >
-.t {
-	transform-origin: bottom left;
-	z-index: 2;
-	position: absolute;
-	white-space: pre;
-	overflow: visible;
-	line-height: 1.5;
-}
-.text-container {
-	white-space: pre;
-}
-@supports (-webkit-touch-callout: none) {
-	.text-container {
-		white-space: normal;
-	}
-}
-</style>
-<!-- End shared CSS values -->
+<body >
 
 
-<!-- Begin inline CSS -->
-<style type="text/css" >
 
-#t1_1{left:488px;bottom:1156px;letter-spacing:-0.2px;}
-#t2_1{left:624px;bottom:1118px;letter-spacing:0.19px;}
-#t3_1{left:599px;bottom:1093px;letter-spacing:0.18px;}
-#t4_1{left:560px;bottom:1069px;letter-spacing:0.18px;}
-#t5_1{left:573px;bottom:1044px;letter-spacing:0.22px;}
-#t6_1{left:600px;bottom:1019px;letter-spacing:0.2px;}
-#t7_1{left:543px;bottom:995px;letter-spacing:0.22px;}
-#t8_1{left:87px;bottom:930px;letter-spacing:-0.24px;}
-#t9_1{left:87px;bottom:907px;letter-spacing:0.16px;}
-#ta_1{left:87px;bottom:857px;letter-spacing:-0.29px;}
-#tb_1{left:87px;bottom:834px;letter-spacing:0.18px;}
-#tc_1{left:87px;bottom:809px;letter-spacing:0.18px;}
-#td_1{left:87px;bottom:784px;letter-spacing:0.22px;}
-#te_1{left:453px;bottom:930px;letter-spacing:-0.23px;}
-#tf_1{left:453px;bottom:907px;letter-spacing:0.25px;}
-#tg_1{left:453px;bottom:857px;letter-spacing:-0.29px;}
-#th_1{left:453px;bottom:834px;letter-spacing:0.21px;}
-#ti_1{left:108px;bottom:734px;letter-spacing:-0.04px;}
-#tj_1{left:474px;bottom:734px;letter-spacing:-0.05px;word-spacing:1.69px;}
-#tk_1{left:700px;bottom:734px;letter-spacing:-0.05px;}
-#tl_1{left:108px;bottom:684px;letter-spacing:-0.04px;}
-#tm_1{left:108px;bottom:646px;letter-spacing:-0.05px;}
-#tn_1{left:108px;bottom:607px;letter-spacing:-0.04px;}
-#to_1{left:108px;bottom:568px;letter-spacing:-0.04px;}
-#tp_1{left:108px;bottom:529px;letter-spacing:-0.04px;}
-#tq_1{left:108px;bottom:491px;letter-spacing:-0.04px;}
-#tr_1{left:487px;bottom:684px;letter-spacing:-0.04px;}
-#ts_1{left:609px;bottom:684px;letter-spacing:-0.05px;}
-#tt_1{left:682px;bottom:684px;letter-spacing:-0.04px;}
-#tu_1{left:549px;bottom:438px;letter-spacing:-0.04px;}
-#tv_1{left:699px;bottom:438px;letter-spacing:-0.04px;}
-#tw_1{left:532px;bottom:386px;letter-spacing:-0.04px;}
-#tx_1{left:744px;bottom:386px;letter-spacing:-0.04px;}
-#ty_1{left:500px;bottom:333px;letter-spacing:-0.04px;}
-#tz_1{left:744px;bottom:333px;letter-spacing:-0.04px;}
-#t10_1{left:569px;bottom:281px;letter-spacing:-0.05px;}
-#t11_1{left:815px;bottom:281px;}
-#t12_1{left:570px;bottom:228px;letter-spacing:-0.06px;}
-#t13_1{left:717px;bottom:228px;letter-spacing:-0.04px;}
-#t14_1{left:285px;bottom:181px;letter-spacing:0.13px;}
-#t15_1{left:274px;bottom:162px;letter-spacing:0.14px;}
+<div class="container " style="padding-left: 0%;padding-right: 0%;">
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+		  <div class="navbar-header">
+			<!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		</button> -->
+			<a class="navbar-brand" style="color: white;" href="#">Taxi go</a>
+		  </div>
 
-.s1{font-size:31px;font-family:Helvetica, Arial, sans-serif;color:#000;font-weight:bold;}
-.s2{font-size:21px;font-family:Helvetica, Arial, sans-serif;color:#000;}
-.s3{font-size:28px;font-family:Helvetica, Arial, sans-serif;color:#000;font-weight:bold;}
-.s4{font-size:23px;font-family:Helvetica, Arial, sans-serif;color:#000;font-weight:bold;}
-.s5{font-size:23px;font-family:Helvetica, Arial, sans-serif;color:#000;}
-.s6{font-size:15px;font-family:Helvetica, Arial, sans-serif;color:#000;font-weight:bold;}
-</style>
-<!-- End inline CSS -->
-
-<!-- Begin page background -->
-<div id="pg1Overlay" style="width:100%; height:100%; position:absolute; z-index:1; background-color:rgba(0,0,0,0); -webkit-user-select: none;"></div>
-<div id="pg1" style="-webkit-user-select: none;"><object width="100%" height="1286px" data="/image/logo.svg" type="image/svg+xml" id="pdf1" style="width:300px; height:300px; -moz-transform:scale(1); z-index: 0;"></object></div>
-<!-- End page background -->
-
-
-<!-- Begin text definitions (Positioned/styled in CSS) -->
-<div class="text-container"><span id="t1_1" class="t s1">Intercity Riders Pvt Ltd </span>
-<!-- <span id="t2_1" class="t s2">Date: Sep 5 5:50 PM </span> -->
-<span id="t3_1" class="t s2">101 Udayar Kudiyirupu, </span>
-<span id="t4_1" class="t s2">Nagarikathan,Thiruvadanai, </span>
-<span id="t5_1" class="t s2">Ramanathapuram-623404 </span>
-<span id="t6_1" class="t s2">Phone no: 9944942223 </span>
-<span id="t7_1" class="t s2">GST No: 33BUIPA0838B1ZC </span>
-<!-- from -->
-<span id="t8_1" class="t s3">Billing From </span>
-<span id="t9_1" class="t s2"><%=jsonData.from%></span>
-<!-- Reading start -->
-<span id="ta_1" class="t s3">Start Reading </span>
-<span id="tb_1" class="t s2"><%=jsonData.start%> </span> 
-<!-- <span id="tc_1" class="t s2">101 Udayar Kudiyirupu</span>
- <span id="td_1" class="t s2">Ramanathapuram-623404 </span>  -->
-<span id="te_1" class="t s3">Billing To </span>
-<span id="tf_1" class="t s2"><%=jsonData.to%></span>
-<span id="tg_1" class="t s3">End Reading </span>
-<span id="th_1" class="t s2"><%=jsonData.end%></span>
-<span id="ti_1" class="t s4">Trip Details </span><span id="tj_1" class="t s4">Total Km  </span><span id="tk_1" class="t s4">per Km </span>
-<span id="tl_1" class="t s5">Driver Name: Paul walker </span>
-<span id="tm_1" class="t s5">Car Number: TN12H2321 </span>
-<span id="tn_1" class="t s5">From: Ladakh </span>
-<span id="to_1" class="t s5">To: Chinakuri, West Bengal, India </span>
-<span id="tp_1" class="t s5">Vehicle Type: Sedan </span>
-<span id="tq_1" class="t s5">Trip Type: One Way Trip </span>
-<span id="tr_1" class="t s5"><%=jsonData.totalDistance%> </span><span id="tt_1" class="t s5">Rs.<%=jsonData.ratePerKm%></span>
-<!-- <span id="tu_1" class="t s5">Sub Total </span><span id="tv_1" class="t s5">Rs. 10400.0 </span>
-<span id="tw_1" class="t s5">Driver Bata </span><span id="tx_1" class="t s5">Rs. 300 </span>
-<span id="ty_1" class="t s5">Extra Charges </span><span id="tz_1" class="t s5">Rs. 100 </span> -->
-<!-- <span id="t10_1" class="t s5">Tax 5% </span><span id="t11_1" class="t s5">- </span> -->
-<span id="t12_1" class="t s4">TOTAL </span><span id="t13_1" class="t s4">Rs.<%=jsonData.totalAmount%> </span>
-<span id="t14_1" class="t s6">Thanks for your using Intercity Riders Pvt Ltd, </span>
-<span id="t15_1" class="t s6">For Booking 9944942223 www.intercityriders.com </span>
-
+		</div>
+	  </nav>
+</div> 
+<div class="container ">
+		<div class="container">
+			<div class="row">
+			  <div class="col" style="margin-left: 0%;">
+				<img src="../image/logo.png" width="140px" height="140px"  class="img-fluid" alt="logo" >
+			  </div>
+			  <div class="col">
+				<p>Taxi go</p>
+				<p>101 Udayar Kudiyirupu</p>
+				<p>Nagarikathan,Thiruvadanai</p>
+				<p>Ramanathapuram-623404</p>
+			  </div>
+			</div>   
+	    </div>		 
+		<br>
+		<table class="table table-striped">
+		  <thead>
+			<tr>
+			  <th>BookingID</th>
+			  <th>Customer Name</th>
+			  <th>Customer Phone</th>
+			</tr>
+		  </thead>
+		  <tbody>
+			<tr>
+			  <td><%= jsonData.bookingId%></td>
+			  <td><%= jsonData.name %></td>
+			  <td><%= jsonData.phone %></td>
+			</tr>
+			
+		  </tbody>
+		</table>
+		<input type="button" style="background-color: black;"  value="Print this page" onClick="window.print()">
 </div>
-
-<!-- End text definitions -->
-
-
-</div>
-
-    <span id="t16_1" class="t s4"><input type="button" style="align-items: right; justify-content:right; display: flex;" value="Print this page" onClick="window.print()"></span>
-
 </body>
 </html>
+
+
