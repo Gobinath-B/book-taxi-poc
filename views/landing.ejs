@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>poc</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body style="background-color: rgb(20, 6, 46);">
+    <div class="container " style="padding-left: 0%;padding-right: 0%;">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid" style=" background-color: rgb(255, 166, 0); margin-top: 0%;">
+          <div class="navbar-header">
+        
+            <a class="navbar-brand" style="color: black;" href="#">Taxi go</a>
+          </div>
+
+        </div>
+      </nav>
+    </div>  
+    <div class="container mt-5" >
+     <div style="align-items: center; justify-content: center; display: flex;">
+        <img src="../image/logo.png" style="max-width: 300px; max-height: 300px;" alt="logo">
+        <form method="post" target="">
+          <input type="hidden" id="custId" name="custId" value="">
+        </form>
+     </div>
+    </div>
+  <script>
+      var id = "<%=id%>"
+    localStorage.setItem("id", id);
+  </script>  
+</body>
+</html>
