@@ -67,13 +67,18 @@
           </div>
           <div class="container-sm border">
             <!-- <a href="#" class="btn btn-primary">See Profile</a> -->
+            <button style="background-color: black; color: white; padding: 2px;" id="getLocation"  onclick="getLocation()" >Navigate to the location</button>
+             <p></p>
           </div>
         </div>
         
-        <input type="button" onclick="window.location.href='https://www.google.com/maps/dir/?api=1&origin=11.1004,77.0266&destination=13.0827,80.2707';" value="Gmap">
-
+        <!-- <div>
+          <button style="background-color: black; color: white;" id="getLocation"  onclick="getLocation()" >Navigate to the location</button>
+          <br>
+        </div> -->
+        
         <form action="/startForm">
-          <button style="background-color: black; color: white;" type="submit">Arrived at customer location</button>
+          <button style="background-color: black; color: white;margin-top: 10px;" type="submit">Arrived at customer location</button>
         </form>
       </div>
     </div>  
@@ -83,7 +88,30 @@
 
   <script>
     var id = "<%=id%>"
-    localStorage.setItem("id", id)  
+    localStorage.setItem("id", id);
+      function getMap(latitude,longitude,destinationLatitude,destinationLongitude){
+          window.location.href = `https://www.google.com/maps/dir/?api=1&origin=${latitude},${longitude}&destination=${destinationLatitude},${destinationLongitude}`;
+      }
+    function getLocation() {
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    const locationText = `Latitude: ${latitude}, Longitude: ${longitude}`;
+                    const destinationLatitude = 13.0827; // Replace with your destination latitude
+                    const destinationLongitude = 80.2707; // Replace with your destination longitude
+                    //document.getElementById("location").textContent = locationText;
+                    document.getElementById("getLocation").addEventListener("click", function() {
+                        getMap(latitude, longitude,destinationLatitude,destinationLongitude);
+                    });
+                  // buffer.innerHTML = "latitude :"+latitude+"<br>"+"longitude"+longitude;
+                });
+            } else {
+                document.getElementById("location").textContent = "Geolocation is not available in this browser.";
+            }
+        }
+    getLocation();
+       
   </script>
 
 
