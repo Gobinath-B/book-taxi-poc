@@ -45,12 +45,13 @@
      </form>
     </div>
   <script>
-          var id = "<%=id%>"
+          var id = "<%=id%>";
+        
     localStorage.setItem("id", id);
      var Id = document.getElementById("Id");
-
+     var verified = <%= verified %>
     //  var id = localStorage.getItem("id");
-     console.log(id);
+     console.log(id,verified);
 
 // Function to update and submit the form
 function updateAndSubmit() {
@@ -60,6 +61,9 @@ function updateAndSubmit() {
     var form = document.getElementById("form");
     form.submit();
 }
+    if(verified == false){
+        window.alert("Phone number not matched. Please try again!")
+    }
 
   </script>  
 </body>
