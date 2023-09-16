@@ -29,7 +29,9 @@ app.post("/customer", async(req,res)=>{
         
        
         else if(customerData.DriverPhone == inputNum){
+            
             res.render('confirm',{customerData:customerData,id:docId });
+            return;
         }
        // if(customerData.status == "start"){
         //
@@ -39,7 +41,9 @@ app.post("/customer", async(req,res)=>{
         //     res.redirect("/endForm");
         // }
         else{
-            res.sendStatus(404);
+            const verified = false; 
+            res.render("verification",{id:docId,verified:verified});
+            return;
         }
     } catch (error) {
         console.error('Error fetching customer data:', error);
@@ -67,7 +71,7 @@ app.post("/startTrip", async(req,res)=>{
     try{
         const {imageRef, odometerReading} = req.body;
         const bookingId = req.body.id;
-       // console.log(req.body.id);
+        console.log(req.body.id);
         const otp = req.body.otp;
         var data = await fb.collection('customer').doc(bookingId).get()
        // console.log(data.data() , otp);
@@ -154,7 +158,7 @@ app.get("/startForm",(req,res)=>{
 
 
 
-app.get("/:id",async(req,res)=>{
+app.get("/booking/:id",async(req,res)=>{
    try{ 
     const docId = req.params.id;
         const customerRef = fb.collection('customer').doc(docId);
@@ -164,9 +168,9 @@ app.get("/:id",async(req,res)=>{
             res.json({ error: 'Customer not found' });
             return;
         }
-        
+        const verified = true;
         const customerData = customerDoc.data();
-        res.render('verification',{customerData:customerData,id:docId });
+        res.render('verification',{id:docId ,verified:verified});
 
     }catch (error) {
             console.error('Error fetching customer data:', error);
@@ -182,11 +186,11 @@ app.get("/endForm",(req,res)=>{
     res.render("endForm");
 });
 
-app.post("/location",(req,res)=>{
-   const latitude = req.body.latitude;
-   const longitude = req.body.longitude;
-   console.log(latitude,longitude);
-});
+// app.post("/location",(req,res)=>{
+//    const latitude = req.body.latitude;
+//    const longitude = req.body.longitude;
+//    console.log(latitude,longitude);
+// });
 
 app.listen(PORT,()=>{
     console.log(`listening on ${PORT}`)
