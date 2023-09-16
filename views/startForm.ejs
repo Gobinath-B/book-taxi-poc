@@ -34,7 +34,7 @@
     <div class="container mt-5" >
   
         <h1 class="text-center" style="margin-top: 0%;">Start Ride Form</h1>
-        <form action="/startTrip" method="post" class="form" id="form">
+        <form action="/startTrip" method="post" class="Startform" id="Startform">
             <div class="mb-3">
                 <button type="button" class="btn btn-primary" style="background-color: black;" id="start-camera">Start Camera</button>
             </div>
@@ -100,14 +100,14 @@ click_button.addEventListener('click', function() {
 var hiddenId = document.getElementById("id");
 var hiddenInput = document.getElementById("imageRef");
 var id = localStorage.getItem("id");
-
+console.log(id);
 // Function to update and submit the form
 function updateAndSubmit() {
     // Update the value of the hidden input field
     hiddenInput.value = image_data_url;
     hiddenId.value = id;
     // Submit the form
-    var form = document.getElementById("form");
+    var form = document.getElementById("Startform");
     form.submit();
 }
 
