@@ -5,8 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Confirmation Page</title>
-  <script>import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";</script>
-  <script>import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-analytics.js";</script>
+
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
@@ -50,11 +49,11 @@
         <h2 style="align-items: center;">Confirmation Page</h2>
         <div class="card-img-overlay">
           <div class="container-sm border">
-            <p>Customer Name: <%= customerData.name %>
+            <p>Customer Name: <%= customerData.custName %>
             </p>
           </div>
           <div class="container-sm border">
-            <p>Customer Phone: <%= customerData.Phone %>
+            <p>Customer Phone: <%= customerData.custPhone %>
             </p>
           </div>
           <div class="container-sm border">
@@ -67,7 +66,7 @@
           </div>
           <div class="container-sm border">
             <!-- <a href="#" class="btn btn-primary">See Profile</a> -->
-            <button style="background-color: black; color: white; padding: 2px;" id="getLocation"  onclick="getLocation()" >Navigate to the location</button>
+            <button style="background-color: black; color: white; padding: 2px;" id="getLocation" onclick="getLocation()"  >Navigate to the location</button>
              <p></p>
           </div>
         </div>
@@ -87,19 +86,25 @@
   </html>
 
   <script>
+      // import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";
+      // import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-analytics.js";
     var id = "<%=id%>"
     localStorage.setItem("id", id);
-      function getMap(latitude,longitude,destinationLatitude,destinationLongitude){
+    function getMap(latitude,longitude,destinationLatitude,destinationLongitude){
           window.location.href = `https://www.google.com/maps/dir/?api=1&origin=${latitude},${longitude}&destination=${destinationLatitude},${destinationLongitude}`;
-      }
+      };
+      
     function getLocation() {
+      <%=console.log(customerData?.fromLoc._latitude) %>
+      const custLocation= JSON.parse(`{"latitude":<%=customerData?.fromLoc._latitude%>,"longitude":<%=customerData?.fromLoc._longitude%>}`);
+      console.log(custLocation);
             if ("geolocation" in navigator) {
                 navigator.geolocation.getCurrentPosition(function(position) {
                     const latitude = position.coords.latitude;
                     const longitude = position.coords.longitude;
                     const locationText = `Latitude: ${latitude}, Longitude: ${longitude}`;
-                    const destinationLatitude = 13.0827; // Replace with your destination latitude
-                    const destinationLongitude = 80.2707; // Replace with your destination longitude
+                    const destinationLatitude = custLocation.latitude; // Replace with your destination latitude
+                    const destinationLongitude = custLocation.longitude; // Replace with your destination longitude
                     //document.getElementById("location").textContent = locationText;
                     document.getElementById("getLocation").addEventListener("click", function() {
                         getMap(latitude, longitude,destinationLatitude,destinationLongitude);
@@ -110,8 +115,8 @@
                 document.getElementById("location").textContent = "Geolocation is not available in this browser.";
             }
         }
-    getLocation();
-       
+   // getLocation();
+  //  document.getElementById("getLocation").addEventListener("click", getLocation());
   </script>
 
 
