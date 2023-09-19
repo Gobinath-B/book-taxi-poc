@@ -53,8 +53,10 @@
             </div>
             <div class="mb-3">
                 <label for="otp" class="form-label" style="font-size: medium;">Enter OTP:</label>
-                <input type="text" class="form-control" id="otp" name="otp" value="8080" required>
+                <input type="text" class="form-control" id="otp" name="otp" value="4705" required>
                 <input type="text" class="form-control" id="id" name="id" hidden>
+                <input type="text" class="form-control" id="date" name="date" hidden>
+                <input type="text" class="form-control" id="time" name="time" hidden>
                 <input type="text" class="form-control" id="imageRef" name="imageRef" hidden>
             </div>
             <div class="mb-3">
@@ -98,14 +100,22 @@ click_button.addEventListener('click', function() {
 });
 
 var hiddenId = document.getElementById("id");
+var dateId = document.getElementById('date');
+var timeId = document.getElementById("time");
 var hiddenInput = document.getElementById("imageRef");
 var id = localStorage.getItem("id");
+
 console.log(id);
 // Function to update and submit the form
+const Currdate = new Date();
+const date = Currdate.getMonth()+1 + "/" + Currdate.getDate() +"/"+ Currdate.getFullYear();
+var time =  Currdate.getHours() + ":" + Currdate.getMinutes() + ":" + Currdate.getSeconds();
 function updateAndSubmit() {
     // Update the value of the hidden input field
     hiddenInput.value = image_data_url;
     hiddenId.value = id;
+    dateId.value = date;
+    timeId.value = time;
     // Submit the form
     var form = document.getElementById("Startform");
     form.submit();
