@@ -17,10 +17,10 @@ app.post("/customer", async(req,res)=>{
     try {
         
        const docId = req.body.Id;
-       console.log(docId);
-        const customerRef = fb.collection('customer').doc(docId);
+       //console.log(docId);
+        const customerRef = fb.collection('BookingDetails').doc(docId);
         const customerDoc = await customerRef.get();
-        const inputNum = req.body.Dphone
+        const inputNum = "+91"+req.body.Dphone;
         const customerData = customerDoc.data();
         if (!customerDoc.exists) {
             res.json({ error: 'Driver not found' });
@@ -28,7 +28,7 @@ app.post("/customer", async(req,res)=>{
         }
         
        
-        else if(customerData.DriverPhone == inputNum){
+        else if(customerData.driverPhone == inputNum){
             
             res.render('confirm',{customerData:customerData,id:docId });
             return;
@@ -71,13 +71,15 @@ app.post("/startTrip", async(req,res)=>{
     try{
         const {imageRef, odometerReading} = req.body;
         const bookingId = req.body.id;
-        console.log(req.body.id);
+        const date = req.body.date;
+        const time = req.body.time;
+        //console.log(req.body.time);
         const otp = req.body.otp;
-        var data = await fb.collection('customer').doc(bookingId).get()
-       // console.log(data.data() , otp);
+        var data = await fb.collection('BookingDetails').doc(bookingId).get()
+       //console.log(data.data() , otp);
         if(data.data().otp == otp){
          //console.log(true);
-        await fb.collection('customer').doc(bookingId).update({status:"start",start:odometerReading,image:imageRef})
+        await fb.collection('BookingDetails').doc(bookingId).update({status:"start",bookedTime:date,bookedTimeObj:time,startOdometerValue:odometerReading,startOdometerImage:imageRef})
         //await fb.collection('customer').doc(bookingId).update({start:odometerReading,image:imageRef})
        
           .then(() => {
@@ -102,27 +104,28 @@ app.post("/endTrip",async (req,res)=>{
          const {imageRef, odometerReadingEnd} = req.body;
          console.log(req.body);
          const bookingId = req.body.id;
-           
-         await fb.collection('customer').doc(bookingId).update({end:odometerReadingEnd,imageEnd:imageRef,status:"end"})
-         var data =  await fb.collection('customer').doc(bookingId).get()
-         const name = data._fieldsProto.name.stringValue;
-         const service = data._fieldsProto.service.stringValue;
-         const driverName = data._fieldsProto.driverName.stringValue;
-         const beta = data._fieldsProto.beta.integerValue;
-         const from = data._fieldsProto.from.stringValue;
-         const to = data._fieldsProto.to.stringValue;
-         const start = data._fieldsProto.start.stringValue;
-         const end = data._fieldsProto.end.stringValue;
-         const phone = data._fieldsProto.Phone.integerValue;
-         const ratePerKm = data._fieldsProto.ratePerKm.integerValue;
-         const tax = data._fieldsProto.tax.integerValue;
-         const car = data._fieldsProto.car.stringValue;
-         const status = data._fieldsProto.status.stringValue;
+         const date = req.body.date;
+         const time = req.body.time; 
+         await fb.collection('BookingDetails').doc(bookingId).update({tripCompletedAt:date,endOdometerValue:odometerReadingEnd,endOdometerImage:imageRef,status:"end"})
+         var data =  await fb.collection('BookingDetails').doc(bookingId).get()
+         const name = data.data().custName;
+         const service = data.data().trip;
+         const driverName = data.data().driverName;
+         const beta = data.data().driverBeta;
+         const from = data.data().from;
+         const to = data.data().to;
+         const start = data.data().startOdometerValue;
+         const end = data.data().endOdometerValue;
+         const phone = data.data().custPhone;
+         const ratePerKm = data.data().kmPrice;
+         const taxPercent = data.data().taxPercent;
+         const carName = data.data().carName;
+         const status = data.data().status;
          const totalDistance = end - start;
-         const extra = parseInt(tax)  +parseInt(beta);
-         const totalAmount = parseInt(totalDistance * ratePerKm )+ parseInt(extra);
-         console.log(totalAmount,extra);
-         console.log(beta,tax,totalDistance,ratePerKm);
+        // const extra = parseInt(tax)  +parseInt(beta);
+        // const totalAmount = parseInt(totalDistance * ratePerKm )+ parseInt(extra);
+        //  console.log(totalAmount,extra);
+        //  console.log(beta,tax,totalDistance,ratePerKm);
          const jsonData = {
             bookingId:bookingId,
             service:service,
@@ -131,19 +134,19 @@ app.post("/endTrip",async (req,res)=>{
             from:from,
             to:to,
             phone:phone,
-            car: car,
+            carName: carName,
             start: start,
             end: end,
             ratePerKm: ratePerKm,
             beta:beta,
-            tax:tax,
+            taxPercent:taxPercent,
             totalDistance: totalDistance,
-            totalAmount: totalAmount
+            //totalAmount: totalAmount
           };
-         await fb.collection('customer').doc(bookingId).update({amount:totalAmount,travel_distance:totalDistance})
-         .then(()=>{
+         //await fb.collection('BookingDetails').doc(bookingId).update({amount:totalAmount,travel_distance:totalDistance})
+         //.then(()=>{
             res.render("bill",{jsonData});
-         })
+         //})
          
         
      } catch (error) {
@@ -161,11 +164,13 @@ app.get("/startForm",(req,res)=>{
 app.get("/booking/:id",async(req,res)=>{
    try{ 
     const docId = req.params.id;
-        const customerRef = fb.collection('customer').doc(docId);
+        
+        const customerRef = fb.collection('BookingDetails').doc(docId);
         const customerDoc = await customerRef.get();
-
+        console.log(customerDoc);
         if (!customerDoc.exists) {
-            res.json({ error: 'Customer not found' });
+            res.json({ error: 'Customer not found',docId:docId });
+            // console.log(req.params.id);
             return;
         }
         const verified = true;
