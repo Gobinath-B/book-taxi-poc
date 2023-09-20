@@ -71,15 +71,15 @@ app.post("/startTrip", async(req,res)=>{
     try{
         const {imageRef, odometerReading} = req.body;
         const bookingId = req.body.id;
-        const date = req.body.date;
-        const time = req.body.time;
+        const date = req.body.dateId;
+        // const time = req.body.time;
         //console.log(req.body.time);
         const otp = req.body.otp;
         var data = await fb.collection('BookingDetails').doc(bookingId).get()
        //console.log(data.data() , otp);
         if(data.data().otp == otp){
          //console.log(true);
-        await fb.collection('BookingDetails').doc(bookingId).update({status:"start",bookedTime:date,bookedTimeObj:time,startOdometerValue:odometerReading,startOdometerImage:imageRef})
+        await fb.collection('BookingDetails').doc(bookingId).update({status:"start",startOdometerDate:date,startOdometerValue:odometerReading,startOdometerImage:imageRef})
         //await fb.collection('customer').doc(bookingId).update({start:odometerReading,image:imageRef})
        
           .then(() => {
@@ -102,16 +102,17 @@ app.post("/startTrip", async(req,res)=>{
 app.post("/endTrip",async (req,res)=>{
     try{
          const {imageRef, odometerReadingEnd} = req.body;
-         console.log(req.body);
+         //console.log(req.body);
          const bookingId = req.body.id;
-         const date = req.body.date;
-         const time = req.body.time; 
-         await fb.collection('BookingDetails').doc(bookingId).update({tripCompletedAt:date,endOdometerValue:odometerReadingEnd,endOdometerImage:imageRef,status:"end"})
+         const date = req.body.dateId;
+         //console.log(date);
+        
+         await fb.collection('BookingDetails').doc(bookingId).update({endOdometerDate:date,endOdometerValue:odometerReadingEnd,endOdometerImage:imageRef,status:"end"})
          var data =  await fb.collection('BookingDetails').doc(bookingId).get()
          const name = data.data().custName;
          const service = data.data().trip;
          const driverName = data.data().driverName;
-         const beta = data.data().driverBeta;
+         const beta = data.data().driverBata;
          const from = data.data().from;
          const to = data.data().to;
          const start = data.data().startOdometerValue;
@@ -122,10 +123,50 @@ app.post("/endTrip",async (req,res)=>{
          const carName = data.data().carName;
          const status = data.data().status;
          const totalDistance = end - start;
-        // const extra = parseInt(tax)  +parseInt(beta);
-        // const totalAmount = parseInt(totalDistance * ratePerKm )+ parseInt(extra);
-        //  console.log(totalAmount,extra);
-        //  console.log(beta,tax,totalDistance,ratePerKm);
+         let betaAmount = beta;
+         const sDate = data.data().startOdometerDate;
+         const eDate =  data.data().endOdometerDate;
+         const startDate = new Date(sDate);
+         const endDate = new Date(eDate);
+         const totalTime = startDate.getTime() - endDate.getTime();
+         let totalDays = Math.abs(Math.ceil(totalTime / (1000 * 3600 * 24))); 
+         totalDays +=1;
+         let totalAmount ;
+         let amount ;
+        //  console.log(totalDays);
+        //  console.log(ratePerKm);
+        //  console.log(totalDistance);
+        //  console.log(totalAmount);
+        //  console.log(beta);
+        //  console.log(betaAmount);
+        //  console.log(amount);
+        
+         if(service == "One Way Trip"){
+            if(totalDistance <130){
+                amount = 130 * parseInt(ratePerKm);
+            }
+            else{
+               amount = parseInt(totalDistance) * parseInt(ratePerKm);
+            }
+         }
+         else{
+            if(totalDistance <= 250 * totalDays){
+                let distance = (totalDays*250);
+                amount = distance * parseInt(ratePerKm);
+            }
+            else{
+                amount = parseInt(totalDistance) * parseInt(ratePerKm);   
+            }
+         }
+         
+         if(parseInt(totalDays) == 1){
+            totalAmount = amount + beta;
+         }
+         else{
+            
+            betaAmount = parseInt(totalDays) * beta ; 
+            totalAmount = amount + (betaAmount);
+         }
          const jsonData = {
             bookingId:bookingId,
             service:service,
@@ -138,11 +179,11 @@ app.post("/endTrip",async (req,res)=>{
             start: start,
             end: end,
             ratePerKm: ratePerKm,
-            beta:beta,
-            taxPercent:taxPercent,
+            betaAmount: betaAmount,
             totalDistance: totalDistance,
-            //totalAmount: totalAmount
+            totalAmount: totalAmount
           };
+          //console.log(totalAmount);
          //await fb.collection('BookingDetails').doc(bookingId).update({amount:totalAmount,travel_distance:totalDistance})
          //.then(()=>{
             res.render("bill",{jsonData});
