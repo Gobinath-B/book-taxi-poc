@@ -45,8 +45,8 @@
       </nav>
       
       
-      <div class="card" style="width:500px; border: 10px; padding-left: 30px;align-items: center;">
-        <h2 style="align-items: center;">Confirmation Page</h2>
+       <!-- <div class="card " style="width: 18rem;"> -->
+       <!-- <h2 style="align-items: center;">Confirmation Page</h2>
         <div class="card-img-overlay">
           <div class="container-sm border">
             <p>Customer Name: <%= customerData.custName %>
@@ -63,13 +63,39 @@
           <div class="container-sm border">
             <p>Drop point : <%= customerData.to %>
             </p>
-          </div>
-          <div class="container-sm border">
+          </div> -->
+             
+          <table class="table table-bordered ">
+            <caption style="color: black; font-size: 20px;">Confirmation Page</caption>
+            
+            <tbody>
+              <tr>
+                <td style="font-weight: bolder;">Customer Name</td>
+                <td><%= customerData.custName %></td>
+              </tr> 
+              <tr>
+                <td style="font-weight: bolder;">Customer Phone</td>
+                <td><%= customerData.custPhone %></td>
+              </tr> 
+              <tr>
+                <td style="font-weight: bolder;">Pickup point</td>
+                <td><%= customerData.from %></td>
+              </tr>  
+              <tr>
+                <td style="font-weight: bolder;">Drop point</td>
+                <td><%= customerData.to %></td>
+              </tr>  
+
+            </tbody>
+          </table>
+       
+
+          <div class="container-sm border text-center " >
             <!-- <a href="#" class="btn btn-primary">See Profile</a> -->
             <button style="background-color: black; color: white; padding: 2px;" id="getLocation" onclick="getLocation()"  >Navigate to the location</button>
              <p></p>
-          </div>
-        </div>
+          
+       
         
         <!-- <div>
           <button style="background-color: black; color: white;" id="getLocation"  onclick="getLocation()" >Navigate to the location</button>
@@ -79,8 +105,10 @@
         <form action="/startForm">
           <button style="background-color: black; color: white;margin-top: 10px;" type="submit">Arrived at customer location</button>
         </form>
+        </div>
       </div>
     </div>  
+  <!-- </div>  -->
   </body>
 
   </html>
