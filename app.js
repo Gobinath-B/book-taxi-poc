@@ -105,12 +105,14 @@ app.post("/endTrip",async (req,res)=>{
          //console.log(req.body);
          const bookingId = req.body.id;
          const date = req.body.dateId;
+         const additionalCharges = req.body.adicharge;
          //console.log(date);
         
-         await fb.collection('BookingDetails').doc(bookingId).update({endOdometerDate:date,endOdometerValue:odometerReadingEnd,endOdometerImage:imageRef,status:"end"})
+         await fb.collection('BookingDetails').doc(bookingId).update({additionalCharge:additionalCharges,endOdometerDate:date,endOdometerValue:odometerReadingEnd,endOdometerImage:imageRef,status:"end"})
          var data =  await fb.collection('BookingDetails').doc(bookingId).get()
          const name = data.data().custName;
          const service = data.data().trip;
+         const additionalCharge = data.data().additionalCharge;
          const driverName = data.data().driverName;
          const beta = data.data().driverBata;
          const from = data.data().from;
@@ -133,13 +135,13 @@ app.post("/endTrip",async (req,res)=>{
          totalDays +=1;
          let totalAmount ;
          let amount ;
-        //  console.log(totalDays);
-        //  console.log(ratePerKm);
-        //  console.log(totalDistance);
-        //  console.log(totalAmount);
-        //  console.log(beta);
-        //  console.log(betaAmount);
-        //  console.log(amount);
+         console.log(totalDays);
+         console.log(ratePerKm);
+         console.log(totalDistance);
+         console.log(totalAmount);
+         console.log(beta);
+         console.log(betaAmount);
+         console.log(amount);
         
          if(service == "One Way Trip"){
             if(totalDistance <130){
@@ -160,12 +162,12 @@ app.post("/endTrip",async (req,res)=>{
          }
          
          if(parseInt(totalDays) == 1){
-            totalAmount = amount + beta;
+            totalAmount =  parseInt(amount) + parseInt(beta)+ parseInt(additionalCharge);
          }
          else{
             
             betaAmount = parseInt(totalDays) * beta ; 
-            totalAmount = amount + (betaAmount);
+            totalAmount = parseInt(amount) + parseInt(betaAmount)+ parseInt(additionalCharge);
          }
          const jsonData = {
             bookingId:bookingId,
