@@ -1,39 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script>import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";</script>
-  <script>import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-analytics.js";</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmation Page</title>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
+
 <body>
-<!-- confirm.ejs -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Confirmation Page</title>
-</head>
-<body>
-    <h1>Confirmation Page</h1>
-    <p>Customer Name: <%= customerData.name %></p>
-    <p>Customer Phone: <%= customerData.Phone %></p>
-    <p>Pickup point : <%= customerData.from %></p>
-    <p>Drop point : <%= customerData.to %></p>
-    <form action="/verify-otp?id=<%=id%>" method="POST">
-      <label for="otp">Enter OTP:</label>
-      <input type="text" id="otp" name="otp" value="8080" required>
-      <button type="submit">Submit OTP</button>
-  </form>
+  <!-- confirm.ejs -->
+  <!DOCTYPE html>
+  <html>
+
+  <head>
+   
+  </head>
+
+  <body>
+
+
     <!-- Other customer data fields here -->
-</body>
-</html>
+    <div class="container pt-3" style="padding-left: 0%;padding-right: 0%;">
+      <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button> -->
+            <a class="navbar-brand" style="color: white;" href="#">Taxi go</a>
+          </div>
 
-  <script> 
-  var id = "<%=id%>"
-  localStorage.setItem("id",id)  
-    </script>
-    
+        </div>
+      </nav>
+      
+      
+       <!-- <div class="card " style="width: 18rem;"> -->
+       <!-- <h2 style="align-items: center;">Confirmation Page</h2>
+        <div class="card-img-overlay">
+          <div class="container-sm border">
+            <p>Customer Name: <%= customerData.custName %>
+            </p>
+          </div>
+          <div class="container-sm border">
+            <p>Customer Phone: <%= customerData.custPhone %>
+            </p>
+          </div>
+          <div class="container-sm border">
+            <p>Pickup point : <%= customerData.from %>
+            </p>
+          </div>
+          <div class="container-sm border">
+            <p>Drop point : <%= customerData.to %>
+            </p>
+          </div> -->
+             
+          <table class="table table-bordered ">
+            <caption style="color: black; font-size: 20px;">Confirmation Page</caption>
+            
+            <tbody>
+              <tr>
+                <td style="font-weight: bolder;">Customer Name</td>
+                <td><%= customerData.custName %></td>
+              </tr> 
+              <tr>
+                <td style="font-weight: bolder;">Customer Phone</td>
+                <td><%= customerData.custPhone %></td>
+              </tr> 
+              <tr>
+                <td style="font-weight: bolder;">Pickup point</td>
+                <td><%= customerData.from %></td>
+              </tr>  
+              <tr>
+                <td style="font-weight: bolder;">Drop point</td>
+                <td><%= customerData.to %></td>
+              </tr>  
+
+            </tbody>
+          </table>
+       
+
+          <div class="container-sm border text-center " >
+            <!-- <a href="#" class="btn btn-primary">See Profile</a> -->
+            <button style="background-color: black; color: white; padding: 2px;" id="getLocation" onclick="getLocation()"  >Navigate to the location</button>
+             <p></p>
+          
+       
+        
+        <!-- <div>
+          <button style="background-color: black; color: white;" id="getLocation"  onclick="getLocation()" >Navigate to the location</button>
+          <br>
+        </div> -->
+        
+        <form action="/startForm">
+          <button style="background-color: black; color: white;margin-top: 10px;" type="submit">Arrived at customer location</button>
+        </form>
+        </div>
+      </div>
+    </div>  
+  <!-- </div>  -->
+  </body>
+
+  </html>
+
+  <script>
+      // import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";
+      // import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-analytics.js";
+    var id = "<%=id%>"
+    localStorage.setItem("id", id);
+    function getMap(latitude,longitude,destinationLatitude,destinationLongitude){
+          window.location.href = `https://www.google.com/maps/dir/?api=1&origin=${latitude},${longitude}&destination=${destinationLatitude},${destinationLongitude}`;
+      };
+      
+    function getLocation() {
+      <%=console.log(customerData?.fromLoc._latitude) %>
+      const custLocation= JSON.parse(`{"latitude":<%=customerData?.fromLoc._latitude%>,"longitude":<%=customerData?.fromLoc._longitude%>}`);
+      console.log(custLocation);
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    const locationText = `Latitude: ${latitude}, Longitude: ${longitude}`;
+                    const destinationLatitude = custLocation.latitude; // Replace with your destination latitude
+                    const destinationLongitude = custLocation.longitude; // Replace with your destination longitude
+                    //document.getElementById("location").textContent = locationText;
+                    document.getElementById("getLocation").addEventListener("click", function() {
+                        getMap(latitude, longitude,destinationLatitude,destinationLongitude);
+                    });
+                  // buffer.innerHTML = "latitude :"+latitude+"<br>"+"longitude"+longitude;
+                });
+            } else {
+                document.getElementById("location").textContent = "Geolocation is not available in this browser.";
+            }
+        }
+   // getLocation();
+  //  document.getElementById("getLocation").addEventListener("click", getLocation());
+  </script>
+
 
 </body>
+
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>poc</title>
+    <title>Estimation</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Latest compiled and minified CSS -->
@@ -33,36 +33,8 @@
     </div>  
     <div class="container mt-5" >
   
-        <h1 class="text-center" style="margin-top: 0%;">Start Ride Form</h1>
-        <form action="/startTrip" method="post" class="Startform" id="Startform">
-            <div class="mb-3">
-                <button type="button" class="btn btn-primary" style="background-color: black;" id="start-camera">Start Camera</button>
-            </div>
-            <div class="mb-3">
-                <video id="video" class="w-100" autoplay></video>
-            </div>
-            <div class="mb-3">
-                <button type="button" class="btn btn-primary" style="background-color: black;" id="click-photo">Click Photo</button>
-            </div>
-            <div class="mb-3">
-                <canvas id="canvas" class="w-100"></canvas>
-            </div>
-            <div class="mb-3">
-                <label for="start" class="form-label" style="font-size: medium;">Current km reading in odometer</label>
-                <input type="text" class="form-control" id="start" name="odometerReading">
-            </div>
-            <div class="mb-3">
-                <label for="otp" class="form-label" style="font-size: medium;">Enter OTP:</label>
-                <input type="text" class="form-control" id="otp" name="otp" value="4705" required>
-                <input type="text" class="form-control" id="id" name="id" hidden>
-                <input type="text" class="form-control" id="dateId" name="dateId" hidden>
-                <!-- <input type="text" class="form-control" id="time" name="time" hidden> -->
-                <input type="text" class="form-control" id="imageRef" name="imageRef" hidden>
-            </div>
-            <div class="mb-3">
-                <button type="button" class="btn btn-primary" style="background-color: black;" onclick="updateAndSubmit()">Submit</button>
-            </div>
-        </form>
+        <h1 class="text-center" style="margin-top: 0%;">Estimation</h1>
+
     </div>
 
     <!-- Bootstrap JS -->
@@ -100,22 +72,16 @@ click_button.addEventListener('click', function() {
 });
 
 var hiddenId = document.getElementById("id");
-var hiddenInput = document.getElementById("imageRef");
+
 var id = localStorage.getItem("id");
 
-console.log(id);
 // Function to update and submit the form
-const date = new Date();
-// const date = Currdate.getMonth()+1 + "/" + Currdate.getDate() +"/"+ Currdate.getFullYear();
-// var time =  Currdate.getHours() + ":" + Currdate.getMinutes() + ":" + Currdate.getSeconds();
 function updateAndSubmit() {
     // Update the value of the hidden input field
     hiddenInput.value = image_data_url;
     hiddenId.value = id;
-    dateId.value = date;
-    // timeId.value = time;
     // Submit the form
-    var form = document.getElementById("Startform");
+    var form = document.getElementById("form");
     form.submit();
 }
 
