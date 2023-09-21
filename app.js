@@ -43,7 +43,7 @@ app.get("/customer/:id", async(req,res)=>{
 app.post("/verify-otp", async(req,res)=>{
     const bookingId = req.query.id;
     const otp = req.body.otp;
-   var data = await fb.collection('customer').doc(bookingId).get()
+   var data = await fb.collection('customer').doc(bookingId).get();
    console.log(data.data() , otp);
    if(data.data().otp == otp){
     //console.log(true);
