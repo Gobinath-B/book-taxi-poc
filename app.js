@@ -1,3 +1,4 @@
+
 const express = require('express');
 const path = require('path');
 const app = express();
@@ -5,8 +6,8 @@ const db = require("./config");
 const { render } = require('ejs');
 const exp = require('constants');
 const fb = db.firestore();
+// const storage = db.storage();
 const PORT = process.env.PORT || 8000;
-
 app.use(express.json());
 app.use(express.static('Public'));
 app.use(express.urlencoded({extends:false}))
@@ -69,30 +70,50 @@ app.post("/customer", async(req,res)=>{
 
 app.post("/startTrip", async(req,res)=>{
     try{
-        const {imageRef, odometerReading} = req.body;
+        const {imageRef, odometerReading,otp} = req.body;
         const bookingId = req.body.id;
-        const date = req.body.dateId;
+        const date = new Date();
         // const time = req.body.time;
-        //console.log(req.body.time);
-        const otp = req.body.otp;
+        console.log(bookingId);
+        console.log(req.body);
+        
+        
         var data = await fb.collection('BookingDetails').doc(bookingId).get()
        //console.log(data.data() , otp);
         if(data.data().otp == otp){
          //console.log(true);
-        await fb.collection('BookingDetails').doc(bookingId).update({status:"start",startOdometerDate:date,startOdometerValue:odometerReading,startOdometerImage:imageRef})
+        await fb.collection('BookingDetails').doc(bookingId).update({status:"start",startOdometerDate:date,startOdometerValue:odometerReading,startBase64:imageRef})
         //await fb.collection('customer').doc(bookingId).update({start:odometerReading,image:imageRef})
        
-          .then(() => {
+          .then(async() => {
             console.log('Document written with ID: ', bookingId);
-            res.redirect("/endForm");
+            var data =  await fb.collection('BookingDetails').doc(bookingId).get();
+            const customerData = data.data();
+            const from = customerData.from;
+            const to = customerData.to;
+            const start = customerData.startOdometerValue;
+            const estimatedDistance = customerData.estimatedDistance;
+            const ratePerKm = customerData.kmPrice;
+            const estimatedTime = customerData.totalTravelingTime;
+            const estimatedAmount = customerData.totalAmountCalculated;
+            
+            const jsonData = {
+               from:from,
+               to:to,
+               start:start,
+               estimatedDistance:estimatedDistance,
+               estimatedTime : estimatedTime,
+               ratePerKm:ratePerKm,
+               estimatedAmount :estimatedAmount
+            }
+           res.render("estimation.ejs",{jsonData,customerData:customerData});
            
           })
         }
         else{
          res.redirect("/customer/"+bookingId)
         }
-
-       
+ 
     }
     catch(error){
        console.log("error on db storage",error);
@@ -101,14 +122,15 @@ app.post("/startTrip", async(req,res)=>{
 
 app.post("/endTrip",async (req,res)=>{
     try{
+       
          const {imageRef, odometerReadingEnd} = req.body;
          //console.log(req.body);
          const bookingId = req.body.id;
-         const date = req.body.dateId;
+         const date = new Date();
          const additionalCharges = req.body.adicharge;
          //console.log(date);
         
-         await fb.collection('BookingDetails').doc(bookingId).update({additionalCharge:additionalCharges,endOdometerDate:date,endOdometerValue:odometerReadingEnd,endOdometerImage:imageRef,status:"end"})
+         await fb.collection('BookingDetails').doc(bookingId).update({additionalCharge:additionalCharges,endOdometerDate:date,endOdometerValue:odometerReadingEnd,endBase64:imageRef,status:"end"})
          var data =  await fb.collection('BookingDetails').doc(bookingId).get()
          const name = data.data().custName;
          const service = data.data().trip;
@@ -126,16 +148,19 @@ app.post("/endTrip",async (req,res)=>{
          const status = data.data().status;
          const totalDistance = end - start;
          let betaAmount = beta;
-         const sDate = data.data().startOdometerDate;
+         const sDate = data.data().startOdometerDate;         
          const eDate =  data.data().endOdometerDate;
-         const startDate = new Date(sDate);
-         const endDate = new Date(eDate);
+         const StrDate = sDate.toDate().toDateString();
+         const EnDate = eDate.toDate().toDateString();
+         const startDate = new Date(StrDate);
+         const endDate = new Date(EnDate);
          const totalTime = startDate.getTime() - endDate.getTime();
          let totalDays = Math.abs(Math.ceil(totalTime / (1000 * 3600 * 24))); 
          totalDays +=1;
          let totalAmount ;
          let amount ;
-         console.log(totalDays);
+         console.log("date:"+startDate);
+         console.log("date:"+endDate);
          console.log(ratePerKm);
          console.log(totalDistance);
          console.log(totalAmount);
@@ -185,6 +210,7 @@ app.post("/endTrip",async (req,res)=>{
             totalDistance: totalDistance,
             totalAmount: totalAmount
           };
+          await fb.collection('BookingDetails').doc(bookingId).update({totalTravelingTime:totalDays});
           //console.log(totalAmount);
          //await fb.collection('BookingDetails').doc(bookingId).update({amount:totalAmount,travel_distance:totalDistance})
          //.then(()=>{
@@ -202,6 +228,30 @@ app.get("/startForm",(req,res)=>{
     res.render("startForm");
 })
 
+// app.get("/estimation",async(req,res)=>{
+//     const bookingId = "1667285079";
+    
+//          var data =  await fb.collection('BookingDetails').doc(bookingId).get();
+//          const customerData = data.data();
+//          const from = customerData.from;
+//          const to = customerData.to;
+//          const start = customerData.startOdometerValue;
+//          const estimatedDistance = customerData.estimatedDistance;
+//          const ratePerKm = customerData.kmPrice;
+//          const estimatedTime = customerData.totalTravelingTime;
+//          const estimatedAmount = customerData.totalAmountCalculated;
+         
+//          const jsonData = {
+//             from:from,
+//             to:to,
+//             start:start,
+//             estimatedDistance:estimatedDistance,
+//             estimatedTime : estimatedTime,
+//             ratePerKm:ratePerKm,
+//             estimatedAmount :estimatedAmount
+//          }
+//     res.render("estimation.ejs",{jsonData,customerData:customerData});
+// })
 
 
 app.get("/booking/:id",async(req,res)=>{
