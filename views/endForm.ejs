@@ -56,7 +56,6 @@
             </div>
             <input type="text" class="form-control" id="id" name="id" hidden>
             <input type="text" class="form-control" id="imageRef" name="imageRef" hidden>
-            <input type="text" class="form-control" id="dateId" name="dateId" hidden>
             <!-- <input type="text" class="form-control" id="time" name="time" hidden> -->
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary" style="background-color: black;" onclick="updateAndSubmit()">Submit</button>
@@ -103,19 +102,18 @@
         // data url of the image
         console.log(image_data_url);
     });
-     
+    const  Id = localStorage.getItem("id");
     var hiddenInput = document.getElementById("imageRef");
     var hiddenId = document.getElementById('id');
     // Function to update and submit the form
-    const date = new Date();
-    console.log(date);
+    
     // const date = Currdate.getMonth()+1 + "/" + Currdate.getDate() +"/"+ Currdate.getFullYear();
     // var time =  Currdate.getHours() + ":" + Currdate.getMinutes() + ":" + Currdate.getSeconds();
     function updateAndSubmit() {
         // Update the value of the hidden input field
         hiddenInput.value = image_data_url;
-        hiddenId.value = id;
-        dateId.value = date;
+        hiddenId.value = Id;
+       
         // timeId.value = time;
         // Submit the form
         var form = document.getElementById("form");
