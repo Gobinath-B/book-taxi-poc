@@ -116,7 +116,8 @@
   <script>
       // import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";
       // import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-analytics.js";
-    var id = "<%=id%>"
+    var id = "<%=id%>";
+    console.log(id);
     localStorage.setItem("id", id);
     function getMap(latitude,longitude,destinationLatitude,destinationLongitude){
           window.location.href = `https://www.google.com/maps/dir/?api=1&origin=${latitude},${longitude}&destination=${destinationLatitude},${destinationLongitude}`;
