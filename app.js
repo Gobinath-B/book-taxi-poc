@@ -23,6 +23,7 @@ app.post("/customer", async(req,res)=>{
         const customerRef = fb.collection('BookingDetails').doc(docId);
         const customerDoc = await customerRef.get();
         const inputNum = "+91"+req.body.Dphone;
+        const input_Num = req.body.Dphone;
         const customerData = customerDoc.data();
         if (!customerDoc.exists) {
             res.json({ error: 'Driver not found' });
@@ -30,7 +31,7 @@ app.post("/customer", async(req,res)=>{
         }
         
        
-        else if(customerData.driverPhone == inputNum){
+        else if(customerData.driverPhone == inputNum || customerData.driverPhone == input_Num ){
             
             res.render('confirm',{customerData:customerData,id:docId });
             return;
