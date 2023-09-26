@@ -11,5 +11,9 @@
             "src": "/(.*)",
             "dest": "app.js"
         }
-    ]
+    ],
+    "static": {
+        "source": "public",
+        "target": "/public"
+      }
 }
