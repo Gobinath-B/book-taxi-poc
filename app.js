@@ -9,7 +9,7 @@ const fb = db.firestore();
 // const storage = db.storage();
 const PORT = process.env.PORT || 8000;
 app.use(express.json());
-app.use(express.static('Public'));
+app.use(express.static('public'));
 app.use(express.urlencoded({extends:false}))
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"./views"));
