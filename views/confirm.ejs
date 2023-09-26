@@ -102,8 +102,10 @@
           <br>
         </div> -->
         
-        <form action="/startForm">
-          <button style="background-color: black; color: white;margin-top: 10px;" type="submit">Arrived at customer location</button>
+        <form action="/startForm" method="post" id="form">
+          <input type="text" class="" id="id" name="id" hidden>
+          <button style="background-color: black; color: white;margin-top: 10px;" type="submit" onclick="updateAndSubmit()">Arrived at customer location</button>
+          
         </form>
         </div>
       </div>
@@ -119,6 +121,8 @@
     var id = "<%=id%>";
     console.log(id);
     localStorage.setItem("id", id);
+   
+    var hiddenId = document.getElementById('id');
     function getMap(latitude,longitude,destinationLatitude,destinationLongitude){
           window.location.href = `https://www.google.com/maps/dir/?api=1&origin=${latitude},${longitude}&destination=${destinationLatitude},${destinationLongitude}`;
       };
@@ -146,8 +150,18 @@
         }
    // getLocation();
   //  document.getElementById("getLocation").addEventListener("click", getLocation());
+  function updateAndSubmit() {
+        // Update the value of the hidden input field
+        
+        hiddenId.value = id;
+       
+        // timeId.value = time;
+        // Submit the form
+        var form = document.getElementById("form");
+        console.log(form)
+        form.submit();
+    }
   </script>
-
 
 </body>
 
