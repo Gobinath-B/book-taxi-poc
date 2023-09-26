@@ -85,11 +85,13 @@ app.post("/startTrip", async(req,res)=>{
        //console.log(data.data() , otp);
         if(data.data().otp == otp){
          //console.log(true);
-        await fb.collection('BookingDetails').doc(bookingId).update({status:"start",startOdometerDate:date,startOdometerValue:odometerReading,startBase64:imageRef,isAssigned:true})
+         const status = data.data().status;
+        await fb.collection('BookingDetails').doc(bookingId).update({status:"started",startOdometerDate:date,startOdometerValue:odometerReading,startBase64:imageRef,isAssigned:true})
         //await fb.collection('customer').doc(bookingId).update({start:odometerReading,image:imageRef})
        
           .then(async() => {
             console.log('Document written with ID: ', bookingId);
+           
             var data =  await fb.collection('BookingDetails').doc(bookingId).get();
             const customerData = data.data();
             const from = customerData.from;
@@ -210,10 +212,12 @@ app.post("/endTrip",async (req,res)=>{
                end: end,
                ratePerKm: ratePerKm,
                betaAmount: betaAmount,
+               totalDays:totalDays,
                totalDistance: totalDistance,
                totalAmount: totalAmount
              };
-             await fb.collection('BookingDetails').doc(bookingId).update({totalTravelingTime:totalDays+"day(s)",days:totalDays,driverBata:betaAmount,totalAmount:totalAmount});
+             const totalDistanceStr = totalDistance.toString();
+             await fb.collection('BookingDetails').doc(bookingId).update({totalDistance:totalDistanceStr,totalTravelingTime:totalDays+"day(s)",days:totalDays,driverBata:betaAmount,totalAmount:totalAmount});
              //console.log(totalAmount);
             //await fb.collection('BookingDetails').doc(bookingId).update({amount:totalAmount,travel_distance:totalDistance})
             //.then(()=>{
@@ -230,40 +234,42 @@ app.post("/endTrip",async (req,res)=>{
     });
 
 app.get("/startForm",async(req,res)=>{
-
-    if(started == false){
+    // const bookingId = req.params.id;
+    // console.log(bookingId);
+    // var data =  await fb.collection('BookingDetails').doc(bookingId).get();
+    // const status = data.data().status;
+    // if(status != "start"){
     res.render("startForm");
-    }
-    else{
-        const bookingId = req.body.bookingId;
-        console.log(bookingId);
-        var data =  await fb.collection('BookingDetails').doc(bookingId).get();
-                const customerData = data.data();
-                const from = customerData.from;
-                const to = customerData.to;
-                const start = customerData.startOdometerValue;
-                const estimatedDistance = customerData.estimatedDistance;
-                const ratePerKm = customerData.kmPrice;
-                const estimatedTime = customerData.totalTravelingTime;
-                const estimatedAmount = customerData.totalAmountCalculated;
-                
-                const jsonData = {
-                   from:from,
-                   to:to,
-                   start:start,
-                   estimatedDistance:estimatedDistance,
-                   estimatedTime : estimatedTime,
-                   ratePerKm:ratePerKm,
-                   estimatedAmount :estimatedAmount
-                }
-               
-               
-        res.render("estimation.ejs",{jsonData,customerData:customerData});
-       }
-})
+    });
+//     else{
+        
+        
+//     const customerData = data.data();
+//     const from = customerData.from;
+//     const to = customerData.to;
+//     const start = customerData.startOdometerValue;
+//     const estimatedDistance = customerData.estimatedDistance;
+//     const ratePerKm = customerData.kmPrice;
+//     const estimatedTime = customerData.totalTravelingTime;
+//     const estimatedAmount = customerData.totalAmountCalculated;
+    
+//     const jsonData = {
+//        from:from,
+//        to:to,
+//        start:start,
+//        estimatedDistance:estimatedDistance,
+//        estimatedTime : estimatedTime,
+//        ratePerKm:ratePerKm,
+//        estimatedAmount :estimatedAmount
+//     }
+   
+   
+//    res.render("estimation.ejs",{jsonData,customerData:customerData});
+//   }
+// })
 
 // app.get("/estimation",async(req,res)=>{
-//     const bookingId = "1667285079";
+
     
 //          var data =  await fb.collection('BookingDetails').doc(bookingId).get();
 //          const customerData = data.data();
@@ -315,37 +321,41 @@ app.get("/bill",(req,res)=>{
 })
 
 app.get("/endForm",async(req,res)=>{
-  
-   if(started == true){
+//     const bookingId = req.body.bookingId;
+//     console.log(bookingId);
+//     var data =  await fb.collection('BookingDetails').doc(bookingId).get();
+//     const status = data.data().status;
+//    if(status == "start"){
     res.render("endForm");
-   }
-   else{
-    const bookingId = req.body.bookingId;
-    console.log(bookingId);
-    var data =  await fb.collection('BookingDetails').doc(bookingId).get();
-            const customerData = data.data();
-            const from = customerData.from;
-            const to = customerData.to;
-            const start = customerData.startOdometerValue;
-            const estimatedDistance = customerData.estimatedDistance;
-            const ratePerKm = customerData.kmPrice;
-            const estimatedTime = customerData.totalTravelingTime;
-            const estimatedAmount = customerData.totalAmountCalculated;
+   });
+//    else{
+//     console.log("status was not started");
+//     // const bookingId = req.body.bookingId;
+//     // console.log(bookingId);
+//     // var data =  await fb.collection('BookingDetails').doc(bookingId).get();
+//             const customerData = data.data();
+//             const from = customerData.from;
+//             const to = customerData.to;
+//             const start = customerData.startOdometerValue;
+//             const estimatedDistance = customerData.estimatedDistance;
+//             const ratePerKm = customerData.kmPrice;
+//             const estimatedTime = customerData.totalTravelingTime;
+//             const estimatedAmount = customerData.totalAmountCalculated;
             
-            const jsonData = {
-               from:from,
-               to:to,
-               start:start,
-               estimatedDistance:estimatedDistance,
-               estimatedTime : estimatedTime,
-               ratePerKm:ratePerKm,
-               estimatedAmount :estimatedAmount
-            }
+//             const jsonData = {
+//                from:from,
+//                to:to,
+//                start:start,
+//                estimatedDistance:estimatedDistance,
+//                estimatedTime : estimatedTime,
+//                ratePerKm:ratePerKm,
+//                estimatedAmount :estimatedAmount
+//             }
            
            
-    res.render("estimation.ejs",{jsonData,customerData:customerData});
-   }
-});
+//     res.render("estimation.ejs",{jsonData,customerData:customerData});
+//    }
+// });
 
 // app.post("/location",(req,res)=>{
 //    const latitude = req.body.latitude;
