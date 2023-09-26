@@ -86,7 +86,7 @@ app.post("/startTrip", async(req,res)=>{
         if(data.data().otp == otp){
          //console.log(true);
          const status = data.data().status;
-        await fb.collection('BookingDetails').doc(bookingId).update({isStartFormFilled:true,status:"started",startOdometerDate:date,startOdometerValue:odometerReading,startBase64:imageRef,isAssigned:true})
+        await fb.collection('BookingDetails').doc(bookingId).update({isStartFormFilled:true,status:"Started",startOdometerDate:date,startOdometerValue:odometerReading,startBase64:imageRef,isAssigned:true})
         //await fb.collection('customer').doc(bookingId).update({start:odometerReading,image:imageRef})
        
           .then(async() => {
